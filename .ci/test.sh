@@ -17,9 +17,7 @@ do
 	(
 		cd "$srcdir"
 		customizepkg
-	) && \
-	echo "** Test for package $package PASSED" >&2 || \
-	echo "** Test for package $package FAILED, recording for later" >&2 && \
+	) || \
 	errors+=("Package $package did not pass")
 	rm -r "$srcdir"
 	echo ""

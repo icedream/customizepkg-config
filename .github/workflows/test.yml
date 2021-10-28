@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install customizepkg
-        run: curl -sLo /usr/local/bin/customizepkg https://raw.githubusercontent.com/ava1ar/customizepkg/master/customizepkg
+        run: curl -sLo /usr/local/bin/customizepkg https://raw.githubusercontent.com/ava1ar/customizepkg/master/customizepkg && chmod +x /usr/local/bin/customizepkg
       - name: Run test script
         run: .ci/test.sh
         shell: bash

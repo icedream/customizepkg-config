@@ -1,0 +1,31 @@
+From 749823ba2893a8eb7671651c8a88c3829a6d6e0a Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <c.kittelberger@seidemann-web.com>
+Date: Thu, 28 Oct 2021 07:07:04 +0200
+Subject: [PATCH 2/2] Change go build options to follow Go package guidelines.
+
+See https://wiki.archlinux.org/title/Go_package_guidelines.
+---
+ PKGBUILD | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index d9f5e11..8545605 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -13,6 +13,13 @@ makedepends=('go')
+ 
+ build() {
+   cd $pkgname-$pkgver
++
++  export CGO_CPPFLAGS="${CPPFLAGS}"
++  export CGO_CFLAGS="${CFLAGS}"
++  export CGO_CXXFLAGS="${CXXFLAGS}"
++  export CGO_LDFLAGS="${LDFLAGS}"
++  export GOFLAGS="-buildmode=pie -trimpath -ldflags=-linkmode=external -mod=readonly -modcacherw"
++
+   go build
+ }
+ 
+-- 
+2.33.1
+

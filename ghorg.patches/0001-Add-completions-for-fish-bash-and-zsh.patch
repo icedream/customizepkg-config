@@ -1,0 +1,40 @@
+From 287d22cfa03f3a3d616394534b62ece1e05ba9db Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <c.kittelberger@seidemann-web.com>
+Date: Thu, 28 Oct 2021 07:05:07 +0200
+Subject: [PATCH 1/2] Add completions for fish, bash and zsh.
+
+---
+ PKGBUILD | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 49a7ce1..d9f5e11 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -18,4 +18,23 @@ build() {
+ 
+ package() {
+   install -Dm 755 "${srcdir}/$pkgname-$pkgver/ghorg" "${pkgdir}/usr/bin/ghorg"
++
++  # add completions
++  for shell in bash fish zsh
++  do
++    completionpath=""
++    case "$shell" in
++    bash)
++      completionpath="/etc/bash_completion.d/$pkgname"
++      ;;
++    fish)
++      completionpath="/usr/share/fish/completions/$pkgname.fish"
++      ;;
++    zsh)
++      completionpath="/usr/share/zsh/site-functions/_$pkgname"
++      ;;
++    esac
++    mkdir -p "$(dirname "${pkgdir}${completionpath}")"
++    "${srcdir}/$pkgname-$pkgver/ghorg" completion "$shell" > "${pkgdir}${completionpath}"
++  done
+ }
+-- 
+2.33.1
+

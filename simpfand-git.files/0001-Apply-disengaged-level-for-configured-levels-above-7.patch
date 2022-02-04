@@ -1,0 +1,42 @@
+From b64639cd31af796d84490bc4ab7f3ebad31e7176 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Mon, 22 Nov 2021 02:13:37 +0100
+Subject: [PATCH] Apply disengaged level for configured levels above 7.
+
+---
+ parse.c    | 5 ++---
+ simpfand.c | 2 +-
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/parse.c b/parse.c
+index 2514ec0..dbcbe3b 100644
+--- a/parse.c
++++ b/parse.c
+@@ -101,9 +101,8 @@ void parse_config(struct config *cfg)
+                         key_cmp = &key[key_len-4];
+ 
+                         if (STR_STARTS_WITH(key_cmp, "_LVL") && read_val > 7) {
+-                                fprintf(stderr, "warning: \"%s\" set greater than max level (7), "
+-                                        "using default value\n", key);
+-                                continue;
++                                /* assume higher values to mean disengaged (64) */
++                                read_val = 64;
+                         } else if (STR_STARTS_WITH(key_cmp, "_LVL") && read_val < 0) {
+                                 /* fan levels of 0 might be ok now with more modern hardware */
+                                 fprintf(stderr, "warning: \"%s\" set less than zero, "
+diff --git a/simpfand.c b/simpfand.c
+index e70ecd8..7c223ef 100644
+--- a/simpfand.c
++++ b/simpfand.c
+@@ -9,7 +9,7 @@
+ #include "parse.h"
+ #include "options.h"
+ 
+-#define LVL_LEN 8
++#define LVL_LEN 9
+ #define INIT_GARBAGE 100
+ 
+ #define INC 0
+-- 
+2.34.1
+

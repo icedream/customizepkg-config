@@ -1,0 +1,9 @@
+#patch#1#0001-Apply-disengaged-level-for-configured-levels-above-7.patch
+addline#global#build()#(cd simpfand && patch -Np1 -i "${srcdir}"/0001-Apply-disengaged-level-for-configured-levels-above-7.patch)
+
+# add +icedream.2 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.2' "$(_pkgver "$@")"\n}\n_pkgver()
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2

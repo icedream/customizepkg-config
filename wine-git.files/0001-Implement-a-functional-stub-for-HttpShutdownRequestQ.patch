@@ -1,0 +1,45 @@
+From 7f2ccbd2dc5a838f175ec780a71688efd8ed5d33 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Thu, 3 Feb 2022 16:35:24 +0100
+Subject: [PATCH] Implement a functional stub for HttpShutdownRequestQueue.
+
+---
+ dlls/httpapi/httpapi.spec   |  2 +-
+ dlls/httpapi/httpapi_main.c | 11 +++++++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/dlls/httpapi/httpapi.spec b/dlls/httpapi/httpapi.spec
+index df18a123389..6df66b81db2 100644
+--- a/dlls/httpapi/httpapi.spec
++++ b/dlls/httpapi/httpapi.spec
+@@ -30,7 +30,7 @@
+ @ stdcall HttpSetServerSessionProperty(int64 long ptr long)
+ @ stdcall HttpSetServiceConfiguration(ptr long ptr long ptr)
+ @ stdcall HttpSetUrlGroupProperty(int64 long ptr long)
+-@ stub HttpShutdownRequestQueue
++@ stdcall HttpShutdownRequestQueue(ptr)
+ @ stdcall HttpTerminate(long ptr)
+ @ stub HttpWaitForDemandStart
+ @ stub HttpWaitForDisconnect
+diff --git a/dlls/httpapi/httpapi_main.c b/dlls/httpapi/httpapi_main.c
+index 52fa6cc1d80..aaeeb422be3 100644
+--- a/dlls/httpapi/httpapi_main.c
++++ b/dlls/httpapi/httpapi_main.c
+@@ -802,3 +802,14 @@ ULONG WINAPI HttpSetServerSessionProperty(HTTP_SERVER_SESSION_ID id,
+             return ERROR_CALL_NOT_IMPLEMENTED;
+     }
+ }
++
++/***********************************************************************
++ *        HttpShutdownRequestQueue     (HTTPAPI.@)
++ */
++ULONG WINAPI HttpShutdownRequestQueue(HANDLE queue)
++{
++    FIXME("Ignoring call to HttpShutdownRequestQueue for queue %p\n",
++            queue);
++    return ERROR_SUCCESS;
++}
++
+-- 
+2.35.1
+

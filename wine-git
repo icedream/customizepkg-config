@@ -1,0 +1,9 @@
+#patch#1#../wine-git.patches/0001-Implement-a-functional-stub-for-HttpShutdownRequestQ.patch
+addline#global#build()#(cd wine && patch -Np1 -i "${srcdir}"/0001-Implement-a-functional-stub-for-HttpShutdownRequestQ.patch)
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

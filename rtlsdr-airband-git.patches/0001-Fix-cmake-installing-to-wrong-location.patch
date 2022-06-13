@@ -1,0 +1,25 @@
+From d60f32dd44f5a727e06a3d9eb30f361dbc733e4f Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Mon, 13 Jun 2022 04:34:57 +0200
+Subject: [PATCH] Fix cmake installing to wrong location.
+
+---
+ PKGBUILD | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 9816beb..afc4a57 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -47,7 +47,7 @@ build() {
+ 
+ package() {
+     cd "$srcdir"/"${pkgname%-git}"/BUILD
+-    make install
++    make install DESTDIR="${pkgdir}"
+     install -Dm 0755 "$srcdir"/"${pkgname%-git}"/BUILD/src/rtl_airband "${pkgdir}"/usr/bin/rtl_airband
+     install -Dm 0600 "$srcdir"/"${pkgname%-git}"/config/basic_multichannel.conf  "${pkgdir}"/etc/rtl_airband/basic_multichannel.conf
+     install -Dm 0600 "$srcdir"/"${pkgname%-git}"/config/basic_scanning.conf "${pkgdir}"/etc/rtl_airband/basic_scanning.conf
+-- 
+2.36.1
+

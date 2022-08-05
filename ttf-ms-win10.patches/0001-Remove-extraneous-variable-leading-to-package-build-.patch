@@ -1,0 +1,26 @@
+From 7f0095ec397972d73829125fb5e05f8863f338db Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Fri, 5 Nov 2021 08:00:05 +0100
+Subject: [PATCH 1/1] Remove extraneous variable leading to package build
+ failures.
+
+---
+ PKGBUILD | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 48064cd..84d6f37 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -171,7 +171,7 @@ gadugi.ttf     gadugib.ttf                                  # Gadugi
+ mvboli.ttf                                                  # MV Boli
+ )
+ 
+-DLAGENTS=("file::/usr/bin/echo ${BOLD}${RED} Unable to find %u, please read the PKGBUILD ${ALL_OFF}" $DLAGENTS[@])
++DLAGENTS=("file::/usr/bin/echo \033[1m\033[0;31m Unable to find %u, please read the PKGBUILD \033[0m")
+ 
+ source=(${_ttf_ms_win10[@]/#/file://}
+         ${_ttf_ms_win10_japanese[@]/#/file://}
+-- 
+2.33.1
+

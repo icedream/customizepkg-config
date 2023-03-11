@@ -1,0 +1,24 @@
+diff -ur -p1 a/bottles/frontend/views/bottle_details.py b/bottles/frontend/views/bottle_details.py
+--- a/bottles/frontend/views/bottle_details.py	2023-02-24 04:47:30.000000000 +0100
++++ b/bottles/frontend/views/bottle_details.py	2023-03-11 12:03:14.976608969 +0100
+@@ -162,3 +162,3 @@ class BottleView(Adw.PreferencesPage):
+         Gtk.StyleContext.add_class(gtk_context, "dragndrop_overlay")
+-        self.style_provider.load_from_data(b".dragndrop_overlay { background: rgba(41, 65, 94, 0.2);}")
++        self.style_provider.load_from_data(".dragndrop_overlay { background: rgba(41, 65, 94, 0.2);}", -1)
+         Gtk.StyleContext.add_provider(
+diff -ur -p1 a/bottles/frontend/views/library.py b/bottles/frontend/views/library.py
+--- a/bottles/frontend/views/library.py	2023-02-24 04:47:30.000000000 +0100
++++ b/bottles/frontend/views/library.py	2023-03-11 12:03:27.656584398 +0100
+@@ -85,3 +85,3 @@ class LibraryView(Adw.Bin):
+         self.css = self.css+b"\n"+b"."+bytes(re.sub('[~!@$%^&*()+=,./\';:"?><\[\]\{}|`#]', '', entry.entry["name"]).replace(" ", ""), 'utf-8')+b"_menu_button { color: rgba("+bytes(str(color), 'utf-8')+b","+bytes(str(color), 'utf-8')+b","+bytes(str(color), 'utf-8')+b", 255); }"
+-        self.style_provider.load_from_data(self.css)
++        self.style_provider.load_from_data(self.css.decode("utf-8"), -1)
+         Gtk.StyleContext.add_provider(
+diff -ur -p1 a/bottles/frontend/windows/installer.py b/bottles/frontend/windows/installer.py
+--- a/bottles/frontend/windows/installer.py	2023-02-24 04:47:30.000000000 +0100
++++ b/bottles/frontend/windows/installer.py	2023-03-11 12:02:53.654650156 +0100
+@@ -98,3 +98,3 @@ class InstallerDialog(Adw.Window):
+         self.set_transient_for(window)
+-        self.style_provider.load_from_data(b"progressbar { line-height: 2.0; }")
++        self.style_provider.load_from_data("progressbar { line-height: 2.0; }", -1)
+         Gtk.StyleContext.add_provider(

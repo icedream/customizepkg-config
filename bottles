@@ -1,8 +1,0 @@
-#patch#1#../bottles.patches/0001-Fix-for-GTK-4.10.patch
-addline#global#mv Bottles#(cd Bottles && patch -Np1 -i "${srcdir}"/0001-Fix-for-GTK-4.10.patch)
-
-# add +icedream.1 to final package version without disturbing the script
-replace#global#pkgver=#_pkgver=
-replace#global#$pkgver#\$_pkgver
-replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

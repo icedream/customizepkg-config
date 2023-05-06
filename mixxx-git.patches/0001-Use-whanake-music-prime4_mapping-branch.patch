@@ -1,0 +1,25 @@
+From daf60f194fc1d4c3981b7b77ec0614385f0dfc21 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Sat, 6 May 2023 15:07:35 +0200
+Subject: [PATCH] Use whanake-music prime4_mapping branch.
+
+---
+ PKGBUILD | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 26ff555..8c34008 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -48,7 +48,7 @@ depends=(
+ makedepends=('git' 'lv2' 'qt5-tools' 'cmake')
+ provides=('mixxx')
+ conflicts=('mixxx')
+-source=("${pkgname%-*}::git+https://github.com/mixxxdj/mixxx.git"
++source=("${pkgname%-*}::git+https://github.com/whanake-music/mixxx.git#branch=prime4_mapping"
+         'mixxx.install')
+ md5sums=('SKIP'
+          '321b9cca3ed690fcf57e7ac1e99109c2')
+-- 
+2.40.1
+

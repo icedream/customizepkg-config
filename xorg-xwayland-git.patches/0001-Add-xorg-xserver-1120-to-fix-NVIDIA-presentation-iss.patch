@@ -1,0 +1,36 @@
+From 609806ad86e30d4fdca9bd9b16ba7e22c1677d10 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Sat, 29 Jul 2023 01:58:02 +0200
+Subject: [PATCH] Add xorg/xserver!1120 to fix NVIDIA presentation issues.
+
+---
+ PKGBUILD | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index c7e29f7..add3a21 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -20,12 +20,17 @@ makedepends=('meson' 'git'
+              'systemd'
+              'egl-wayland'
+ )
+-source=("xserver::git+https://gitlab.freedesktop.org/xorg/xserver.git")
+-sha256sums=('SKIP')
++source=("xserver::git+https://gitlab.freedesktop.org/xorg/xserver.git" "1120.patch::https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/1120.patch")
++sha256sums=('SKIP' 'SKIP')
+ provides=('xorg-xwayland' 'xorg-server-xwayland' 'xorg-server-xwayland-git')
+ conflicts=('xorg-xwayland' 'xorg-server-xwayland' 'xorg-server-xwayland-git')
+ replaces=('xorg-server-xwayland-git')
+ 
++prepare() {
++  cd xserver
++  patch -p1 -i "$srcdir"/1120.patch
++}
++
+ pkgver() {
+   cd xserver
+   local branch=origin/xwayland-23.1
+-- 
+2.41.0
+

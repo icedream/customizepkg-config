@@ -1,0 +1,35 @@
+From a3ec925ac702c9ec233de9778aad36e658fe2fa8 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Sun, 6 Aug 2023 18:36:23 +0200
+Subject: [PATCH] Use fix patches from JoseD92.
+
+---
+ PKGBUILD | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 256464e..08d6b45 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -9,8 +9,16 @@ url="https://github.com/aejsmith/vkdevicechooser"
+ license=('MIT')
+ depends=('vulkan-icd-loader')
+ makedepends=('git' 'vulkan-headers' 'vulkan-validation-layers' 'meson' 'ninja')
+-source=(https://github.com/aejsmith/vkdevicechooser/archive/refs/tags/1.0.zip)
+-md5sums=('5555405659067e6ba80fac37fcd556d4')
++source=(https://github.com/aejsmith/vkdevicechooser/archive/refs/tags/1.0.zip https://github.com/JoseD92/vkdevicechooser/commit/1997ab0a2b140eb9652059135d75039ca18840be.patch https://github.com/JoseD92/vkdevicechooser/commit/c428499ea0f502f15b9f08d1a738423205dad2ff.patch)
++md5sums=('5555405659067e6ba80fac37fcd556d4'
++         'c1f5b2d4a654574a1f0f8d44c42a807a'
++         'b27979510dc8c1aac3bae3d549469321')
++
++prepare() {
++  cd "${pkgname}-${pkgver}"
++  patch -p1 -i "$srcdir/1997ab0a2b140eb9652059135d75039ca18840be.patch"
++  patch -p1 -i "$srcdir/c428499ea0f502f15b9f08d1a738423205dad2ff.patch"
++}
+ 
+ build() {
+   cd "${pkgname}-${pkgver}"
+-- 
+2.41.0
+

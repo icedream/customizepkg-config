@@ -1,0 +1,25 @@
+From dc66288f6634964ff5094d6722ca04c621f5638e Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Mon, 7 Aug 2023 03:54:09 +0200
+Subject: [PATCH] drm/amd/display: Increase hpd filter delay on disconnect.
+
+---
+ drivers/gpu/drm/amd/display/dc/link/protocols/link_hpd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/display/dc/link/protocols/link_hpd.c b/drivers/gpu/drm/amd/display/dc/link/protocols/link_hpd.c
+index e3d729ab5b9f..278fc76139a3 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/protocols/link_hpd.c
++++ b/drivers/gpu/drm/amd/display/dc/link/protocols/link_hpd.c
+@@ -189,7 +189,7 @@ bool program_hpd_filter(const struct dc_link *link)
+ 	case SIGNAL_TYPE_HDMI_TYPE_A:
+ 		/* Program hpd filter */
+ 		delay_on_connect_in_ms = 500;
+-		delay_on_disconnect_in_ms = 100;
++		delay_on_disconnect_in_ms = 1200;
+ 		break;
+ 	case SIGNAL_TYPE_DISPLAY_PORT:
+ 	case SIGNAL_TYPE_DISPLAY_PORT_MST:
+-- 
+2.41.0
+

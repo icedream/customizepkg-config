@@ -1,0 +1,7 @@
+patch#pkgbuild#../davinci-resolve.patches/fix-download.patch
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

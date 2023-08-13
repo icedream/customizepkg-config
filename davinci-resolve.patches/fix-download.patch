@@ -1,0 +1,34 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index acabf33..1532a1b 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -22,6 +22,7 @@ _reqjson="{ \
+     \"email\": \"someone@archlinux.org\", \
+     \"phone\": \"202-555-0194\", \
+     \"country\": \"us\", \
++    \"street\": \"Bowery 146\", \
+     \"state\": \"New York\", \
+     \"city\": \"AUR\", \
+     \"product\": \"DaVinci Resolve\" \
+@@ -29,11 +30,9 @@ _reqjson="{ \
+
+ _reqjson="$(  printf '%s' "$_reqjson"   | sed 's/[[:space:]]\+/ /g')"
+ _useragent="$(printf '%s' "$_useragent" | sed 's/[[:space:]]\+/ /g')"
+-_useragent_escaped="${_useragent// /\\ }"
+
+ _srcurl="$(curl \
+             -s \
+-            -H 'Host: www.blackmagicdesign.com' \
+             -H 'Accept: application/json, text/plain, */*' \
+             -H 'Origin: https://www.blackmagicdesign.com' \
+             -H "$_useragent" \
+@@ -49,9 +48,7 @@ _srcurl="$(curl \
+
+ DLAGENTS=("https::/usr/bin/curl \
+             -gqb '' -C - --retry 3 --retry-delay 3 \
+-            -H Host:\ sw.blackmagicdesign.com \
+             -H Upgrade-Insecure-Requests:\ 1 \
+-            -H ${_useragent_escaped} \
+             -H Accept:\ text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8 \
+             -H Accept-Language:\ en-US,en;q=0.9 \
+             -o %o \

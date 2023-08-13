@@ -1,9 +1,0 @@
-patch#1#0001-Use-system-installed-libndi-includes.patch
-replace#global#0001-Use-system-installed-libndi-includes.patch#"${srcdir}"/0001-Use-system-installed-libndi-includes.patch
-
-# add +icedream.1 to final package version without disturbing the script
-replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
-replace#global#pkgver=#_pkgver=
-replace#global#$pkgver#\$_pkgver
-replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

@@ -1,9 +1,13 @@
 addline#global#config.x86_64"#echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
 
-# add +icedream.3 to final package version without disturbing the script
+# fix white screen on displays attached to integrated AMD GPU due to spill into system memory >= 64GB
+add#source#B000-drm-amd-disable-s-g-for-apus-when-64gb.patch::https://patchwork.freedesktop.org/patch/549748/raw/
+add#sha256sums#acc1a60c9bec468682dfc523fd662af60ab0cc9eeac039612607ab2202e85f5d
+
+# add +icedream.4 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.3
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.4

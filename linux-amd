@@ -1,5 +1,21 @@
 addline#global#config.x86_64"#echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
 
+# add in-progress SPD5118 module patches written by René Rebe for T2
+add#source#A000-spd-5118.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118.patch
+add#sha256sums#9b50eb7c502e4ea7b918fe98333fa375ae3398d398459d2ab1445f58c5332a63
+add#source#A001-spd-5118_1_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_1_2.patch
+add#sha256sums#b0e7a66448a66da3504d10c52a3aa5c4e6c8905fa16a30c89397196c47d747bc
+add#source#A002-spd-5118_2_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_2_2.patch
+add#sha256sums#12e434e5f53d3218da84939a6e146f58d50e3993698423750ac1e046cfd6fef9
+add#source#A003-spd-5118_parity_1_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_1_2.patch
+add#sha256sums#233a92d52a4a391847598af8870e0aeb5140a6bdfb22aee68d9a62f0778fc82f
+add#source#A004-spd-5118_parity_2_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_2_2.patch
+add#sha256sums#30f1756844ea1cec75def616a3692781cdd8cbf965449bb4af7c86438681633e
+add#source#A005-spd-5118_parity_3_3.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_3_3.patch
+add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
+add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
+add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
+
 # fix white screen on displays attached to integrated AMD GPU due to spill into system memory >= 64GB
 add#source#B000-drm-amd-disable-s-g-for-apus-when-64gb.patch::https://patchwork.freedesktop.org/patch/549748/raw/
 add#sha256sums#acc1a60c9bec468682dfc523fd662af60ab0cc9eeac039612607ab2202e85f5d

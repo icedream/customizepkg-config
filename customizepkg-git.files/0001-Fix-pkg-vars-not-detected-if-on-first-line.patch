@@ -1,0 +1,25 @@
+From 5dcede44baecf57483345a77dacd40a398b363fc Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Mon, 14 Aug 2023 11:22:22 +0200
+Subject: [PATCH] Fix pkg vars not detected if on first line.
+
+---
+ customizepkg | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/customizepkg b/customizepkg
+index a1522c8..b0ced2c 100755
+--- a/customizepkg
++++ b/customizepkg
+@@ -165,7 +165,7 @@ fi
+ # use eval instead of creating a temp file to get pkgname etc
+ # second grep used to filter out all variables with subshell execution like $() or ``
+ # and pkgdesc variable, because multiline description breaks eval execution
+-eval $(grep -Pazo '[^[:print:]][[:blank:]]*_?(pkg.*|name)=(\((.|\n)*?\)|[^#]*?(?= *#|\x0a))' ./PKGBUILD | grep -Eva '\$\(|`|pkgdesc')
++eval $(grep -Pazo '([^[:print:]]|^)[[:blank:]]*_?(pkg.*|name)=(\((.|\n)*?\)|[^#]*?(?= *#|\x0a))' ./PKGBUILD | grep -Eva '\$\(|`|pkgdesc')
+ 
+ # copy for modification
+ cp ./PKGBUILD ./PKGBUILD.custom
+-- 
+2.41.0
+

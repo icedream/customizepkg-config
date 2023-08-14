@@ -1,0 +1,26 @@
+From 5f25dd6d82ba18db7b235b02d99ddfb25bb569b8 Mon Sep 17 00:00:00 2001
+From: ReenigneArcher <42013603+ReenigneArcher@users.noreply.github.com>
+Date: Sat, 25 Mar 2023 20:23:22 -0400
+Subject: [PATCH] capture: enable mouse for wayland
+
+---
+ src/platform/linux/misc.cpp | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/src/platform/linux/misc.cpp b/src/platform/linux/misc.cpp
+index 081fb5341..e3eb03382 100644
+--- a/src/platform/linux/misc.cpp
++++ b/src/platform/linux/misc.cpp
+@@ -530,12 +530,6 @@ std::unique_ptr<deinit_t> init() {
+ #endif
+ #ifdef SUNSHINE_BUILD_DRM
+   if(verify_kms()) {
+-    if(window_system == window_system_e::WAYLAND) {
+-      // On Wayland, using KMS, the cursor is unreliable.
+-      // Hide it by default
+-      display_cursor = false;
+-    }
+-
+     sources[source::KMS] = true;
+   }
+ #endif

@@ -16,14 +16,10 @@ add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
 add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
 add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 
-# fix white screen on displays attached to integrated AMD GPU due to spill into system memory >= 64GB
-add#source#B000-drm-amd-disable-s-g-for-apus-when-64gb.patch::https://patchwork.freedesktop.org/patch/549748/raw/
-add#sha256sums#acc1a60c9bec468682dfc523fd662af60ab0cc9eeac039612607ab2202e85f5d
-
-# add +icedream.4 to final package version without disturbing the script
+# add +icedream.5 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.4
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.5

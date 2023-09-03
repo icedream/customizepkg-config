@@ -1,0 +1,9 @@
+# fix 1.6.0 hash
+replace#global#ba4dcaf655d01477169c32005b92c68776b00b65ac045d1e163d8c21929bf421#ffeaec34fc1c7e27f358240faee9dc1935b673204f0d4f0d863486d65eb3db94
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

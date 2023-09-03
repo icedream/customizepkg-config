@@ -1,0 +1,27 @@
+From ed16cda6d00d2e4e2678acb5ef824a96d2071d9a Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Thu, 31 Aug 2023 20:04:26 +0200
+Subject: [PATCH] Sort patches before applying them.
+
+---
+ PKGBUILD | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 980ca8c..2787fcb 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -50,7 +50,9 @@ prepare() {
+   make mrproper
+ 
+   local src
+-  for src in "${source[@]}"; do
++  local sorted_source
++  IFS=$'\n' sorted_source=($(sort <<<"${source[*]}")); unset IFS
++  for src in "${sorted_source[@]}"; do
+     src="${src%%::*}"
+     src="${src##*/}"
+     [[ $src = *.patch ]] || continue
+-- 
+2.42.0
+

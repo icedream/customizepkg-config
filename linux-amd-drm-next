@@ -1,4 +1,4 @@
-addline#global#config.x86_64"#echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
+addline#global#cp\ \.\.\/config#echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
 
 # make sure patches are applied in the correct order
 patch#pkgbuild#../linux-amd-drm-next.patches/0001-Sort-patches-before-applying-them.patch

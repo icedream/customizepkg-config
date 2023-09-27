@@ -1,0 +1,28 @@
+# This file maps the package names to the package source file repository.
+#
+# Used for automated testing/package builds.
+barrier-git https://aur.archlinux.org/barrier-git.git
+barrier-headless-git https://aur.archlinux.org/barrier-headless-git.git
+cubicsdr https://aur.archlinux.org/cubicsdr.git
+cubicsdr-git https://aur.archlinux.org/cubicsdr-git.git
+customizepkg-git https://aur.archlinux.org/customizepkg-git.git
+davinci-resolve https://aur.archlinux.org/davinci-resolve.git
+ffmpeg-libfdk_aac https://aur.archlinux.org/ffmpeg-libfdk_aac.git
+ffmpeg-ndi https://aur.archlinux.org/ffmpeg-ndi.git
+ghorg https://aur.archlinux.org/ghorg.git
+gpgsync https://aur.archlinux.org/gpgsync.git
+gr-osmosdr-git https://aur.archlinux.org/gr-osmosdr-git.git
+kwin https://gitlab.archlinux.org/archlinux/packaging/packages/kwin.git
+kwin-git https://aur.archlinux.org/kwin-git.git
+linux-amd https://aur.archlinux.org/linux-amd.git
+linux-amd-drm-next https://aur.archlinux.org/linux-amd-drm-next.git
+matchbox https://aur.archlinux.org/matchbox.git
+mixxx-git https://aur.archlinux.org/mixxx-git.git
+rtlsdr-airband-git https://aur.archlinux.org/rtlsdr-airband-git.git
+simpfand-git https://aur.archlinux.org/simpfand-git.git
+sunshine https://aur.archlinux.org/sunshine.git
+tlpui https://aur.archlinux.org/tlpui.git
+ttf-ms-win10 https://aur.archlinux.org/ttf-ms-win10.git
+vkdevicechooser https://aur.archlinux.org/vkdevicechooser.git
+waydroid-image https://aur.archlinux.org/waydroid-image.git
+wine-git https://aur.archlinux.org/wine-git.git

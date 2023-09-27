@@ -11,7 +11,8 @@ do
 
 	srcdir=$(mktemp -p /var/tmp -d)
 
-	git clone --depth=1 "https://aur.archlinux.org/$package.git" "$srcdir"
+	git_url=$(grep -Po "^$package\s+\K.+" .sources)
+	git clone --depth=1 "$git_url" "$srcdir"
 	export CUSTOMIZEPKG_CONFIG="$(pwd)"
 
 	(
@@ -21,7 +22,7 @@ do
 	errors+=("Package $package did not pass")
 	rm -r "$srcdir"
 	echo ""
-done < <(find -maxdepth 1 -type f -print0)
+done < <(find -maxdepth 1 -type f -not -name '.*' -print0)
 
 if [ "${#errors}" -gt 0 ]
 then

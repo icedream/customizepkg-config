@@ -1,0 +1,37 @@
+From 88e9b1ca3c6f46c3528338e9f7f622a6312fd20c Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Fri, 6 Oct 2023 12:43:25 +0200
+Subject: [PATCH 2/2] Use pkgbase variable.
+
+---
+ customizepkg | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/customizepkg b/customizepkg
+index 951e676..12a0b88 100755
+--- a/customizepkg
++++ b/customizepkg
+@@ -33,7 +33,8 @@ usage() {
+ 			"${NAME} --vimdiff, -v  show diff between customised file and\n" \
+ 			"                            original file with vimdiff\n" \
+ 			"\n" \
+-			"configuration is read from:\n $LOCALCONFIGDIR/\${pkgname} or $CONFIGDIR/\${pkgname}\n" \
++			"configuration is read from:\n $LOCALCONFIGDIR/\${pkgbase:-pkgname} " \
++                        "or $CONFIGDIR/\${pkgbase:-pkgname}\n" \
+ 			"(see $CONFIGDIR/mplayer.example as an example)\n" \
+ 			"\n" \
+ 			"originally written by <wain@archlinux.fr>\n" \
+@@ -170,6 +171,10 @@ eval $(grep -Pazo '([^[:print:]]|^)[[:blank:]]*_?(pkg.*|name)=(\((.|\n)*?\)|[^#]
+ # copy for modification
+ cp ./PKGBUILD ./PKGBUILD.custom
+ 
++if [ -n "${pkgbase:-}" ]; then
++	pkgname=("$pkgbase" "${pkgname[@]}")
++fi
++
+ for package in "${pkgname[@]}"
+ do
+ 	# local user prefs take priority
+-- 
+2.42.0
+

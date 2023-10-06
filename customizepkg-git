@@ -1,9 +1,9 @@
 # create empty prepare function for patches to apply in
 replace#global#package()#prepare() {\n  cd "${_pkgname}"\ngit apply "${srcdir}"/*.patch\n}\n\npackage()#
 
-# add +icedream.1 to final package version without disturbing the script
-replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
+# add +icedream.2 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.2' "$(_pkgver "$@")"\n}\n_pkgver()
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2

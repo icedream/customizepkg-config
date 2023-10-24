@@ -16,10 +16,14 @@ add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
 add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
 add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 
-# add +icedream.7 to final package version without disturbing the script
+# add patch to fix logitech-hidpp kernel issues due to race conditions
+add#source#A100-HID-logitech-hidpp-Fix-kernel-crash-on-receiver-USB-disconnect.patch::https://lkml.kernel.org/stable/20231005182638.3776-1-hdegoede@redhat.com/raw
+add#sha256sums#37330ac5d454546916059b076b344d5df3540adc5d0dd64191058afefaa2f809
+
+# add +icedream.8 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.7
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.8

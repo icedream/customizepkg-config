@@ -1,4 +1,4 @@
-patch#pkgbuild#../ttf-ms-win10.patches/0002-Remove-extraneous-variable-leading-to-package-build-.patch
+patch#pkgbuild#../ttf-ms-win10.patches/0001-Remove-extraneous-variable-leading-to-package-build-.patch
 
 # add +icedream.1 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=

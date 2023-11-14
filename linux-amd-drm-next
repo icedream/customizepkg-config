@@ -23,10 +23,14 @@ add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 add#source#A100-HID-logitech-hidpp-Fix-kernel-crash-on-receiver-USB-disconnect.patch::https://lkml.kernel.org/stable/20231005182638.3776-1-hdegoede@redhat.com/raw
 add#sha256sums#37330ac5d454546916059b076b344d5df3540adc5d0dd64191058afefaa2f809
 
-# add +icedream.5 to final package version without disturbing the script
+# disable GCC plugins so we can use distcc
+replace#config.x86_64#CONFIG_HAVE_GCC_PLUGINS=y#CONFIG_HAVE_GCC_PLUGINS=n
+replace#config.x86_64#CONFIG_GCC_PLUGINS=y#CONFIG_GCC_PLUGINS=n
+
+# add +icedream.6 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.4
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.6

@@ -20,10 +20,10 @@ add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 replace#config.x86_64#CONFIG_HAVE_GCC_PLUGINS=y#CONFIG_HAVE_GCC_PLUGINS=n
 replace#config.x86_64#CONFIG_GCC_PLUGINS=y#CONFIG_GCC_PLUGINS=n
 
-# add +icedream.10 to final package version without disturbing the script
+# add +icedream.11 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.10
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.11

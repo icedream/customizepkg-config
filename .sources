@@ -16,6 +16,7 @@ kwin https://gitlab.archlinux.org/archlinux/packaging/packages/kwin.git
 kwin-git https://aur.archlinux.org/kwin-git.git
 linux-amd https://aur.archlinux.org/linux-amd.git
 linux-amd-drm-next https://aur.archlinux.org/linux-amd-drm-next.git
+linux-firmware https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
 matchbox https://aur.archlinux.org/matchbox.git
 mixxx-git https://aur.archlinux.org/mixxx-git.git
 rtlsdr-airband-git https://aur.archlinux.org/rtlsdr-airband-git.git

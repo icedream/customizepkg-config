@@ -1,0 +1,26 @@
+From 6e7d7f246a26e518712fdd66df0d2fc016723462 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Sun, 11 Feb 2024 14:51:29 +0100
+Subject: [PATCH 1/2] Add completions for fish.
+
+---
+ PKGBUILD | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index fa71f49..310a38d 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -21,7 +21,9 @@ package() {
+ 
+   # Populate bash and zsh completions
+   install -dm 755 "${pkgdir}/usr/share/bash-completion/completions"
++  install -dm 755 "${pkgdir}/usr/share/fish/completions"
+   install -dm 755 "${pkgdir}/usr/share/zsh/site-functions"
+   "${pkgdir}/usr/bin/ghorg" completion bash > "${pkgdir}/usr/share/bash-completion/completions/ghorg"
++  "${pkgdir}/usr/bin/ghorg" completion fish > "${pkgdir}/usr/share/fish/completions/ghorg.fish"
+   "${pkgdir}/usr/bin/ghorg" completion zsh >  "${pkgdir}/usr/share/zsh/site-functions/_ghorg"
+ }
+-- 
+2.43.0
+

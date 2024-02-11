@@ -1,4 +1,4 @@
-From 749823ba2893a8eb7671651c8a88c3829a6d6e0a Mon Sep 17 00:00:00 2001
+From 754390d66206005a0fc6ff3646f1575697ed8d76 Mon Sep 17 00:00:00 2001
 From: Carl Kittelberger <c.kittelberger@seidemann-web.com>
 Date: Thu, 28 Oct 2021 07:07:04 +0200
 Subject: [PATCH 2/2] Change go build options to follow Go package guidelines.
@@ -9,10 +9,10 @@ See https://wiki.archlinux.org/title/Go_package_guidelines.
  1 file changed, 7 insertions(+)
 
 diff --git a/PKGBUILD b/PKGBUILD
-index d9f5e11..8545605 100644
+index 310a38d..a420ec2 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
-@@ -13,6 +13,13 @@ makedepends=('go')
+@@ -13,6 +13,13 @@ sha256sums=('df174bfcd08fc89d4b606334559827865ab1ae7f5877b2f001963832ed083b20')
  
  build() {
    cd $pkgname-$pkgver
@@ -27,5 +27,5 @@ index d9f5e11..8545605 100644
  }
  
 -- 
-2.33.1
+2.43.0
 

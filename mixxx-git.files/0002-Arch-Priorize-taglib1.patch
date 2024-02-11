@@ -1,0 +1,25 @@
+From 17f375161f450e27be303980c1ad4fb5130324e9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20Sch=C3=BCrmann?= <daschuer@mixxx.org>
+Date: Thu, 8 Feb 2024 08:16:41 +0100
+Subject: [PATCH 2/5] Arch: Priorize taglib1
+
+---
+ cmake/modules/FindTagLib.cmake | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/cmake/modules/FindTagLib.cmake b/cmake/modules/FindTagLib.cmake
+index dfcb81a45e..1179ebb7f2 100644
+--- a/cmake/modules/FindTagLib.cmake
++++ b/cmake/modules/FindTagLib.cmake
+@@ -47,6 +47,8 @@ include(IsStaticLibrary)
+ 
+ find_package(PkgConfig QUIET)
+ if(PkgConfig_FOUND)
++  # priorize the taglib1 package introduced in https://aur.archlinux.org/packages/taglib1
++  set(ENV{PKG_CONFIG_PATH} "/usr/lib/taglib1/lib/pkgconfig/")
+   pkg_check_modules(PC_TagLib QUIET taglib)
+ endif()
+ 
+-- 
+2.43.0
+

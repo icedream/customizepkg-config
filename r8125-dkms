@@ -1,0 +1,8 @@
+patch#pkgbuild#../r8125-dkms.patches/0001-Use-awesometic-realtek-r8125-dkms-on-github-as-sourc.patch
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

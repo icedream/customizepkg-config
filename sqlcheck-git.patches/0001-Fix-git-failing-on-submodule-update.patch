@@ -1,0 +1,25 @@
+From fddf02a23ee32d525a7665cf01ff331c49abd0fe Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Fri, 23 Feb 2024 11:19:54 +0100
+Subject: [PATCH] Fix git failing on submodule update.
+
+---
+ PKGBUILD | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index 77800db..2ff56b9 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -39,7 +39,7 @@ prepare() {
+ 	git submodule init
+ 	git config submodule.external/gflags.url $srcdir/gflags
+ 	git config submodule.external/googletest.url $srcdir/googletest
+-	git submodule update
++	git -c protocol.file.allow=always submodule update
+ 	./bootstrap
+ }
+ 
+-- 
+2.43.0
+

@@ -1,42 +1,18 @@
-From dd19a8090ad8686a09b148b6070fdb9e1b9e5442 Mon Sep 17 00:00:00 2001
-From: Carl Kittelberger <icedream@icedream.pw>
-Date: Tue, 30 Jan 2024 11:45:20 +0100
-Subject: [PATCH 4/7] spd-5118 parity 1/2
+commit d3409d9c70dfe7ac1d667b6d0232fbfe37b137c8
+Author: Carl Kittelberger <icedream@icedream.pw>
+Date:   Tue Jan 30 11:45:20 2024 +0100
 
-The functions are similar to hweight*(), but somewhat simpler as they
-only need to compute the bottom bit of the result. Thus, it almost
-always makes sense to inline them.
-
-Architectures that have non-generic versions should only include
-`const_parity.h` and override `arch_parity.h`.
-
-Signed-off-by: Hristo Venev <hristo@venev.name>
-Co-authored-by: Carl Kittelberger <icedream@icedream.pw>
----
- arch/alpha/include/asm/bitops.h           |  2 ++
- arch/arc/include/asm/bitops.h             |  1 +
- arch/arm/include/asm/bitops.h             |  1 +
- arch/arm64/include/asm/bitops.h           |  1 +
- arch/csky/include/asm/bitops.h            |  1 +
- arch/hexagon/include/asm/bitops.h         |  1 +
- arch/loongarch/include/asm/bitops.h       |  1 +
- arch/m68k/include/asm/bitops.h            |  1 +
- arch/mips/include/asm/bitops.h            |  2 ++
- arch/openrisc/include/asm/bitops.h        |  1 +
- arch/parisc/include/asm/bitops.h          |  1 +
- arch/powerpc/include/asm/bitops.h         |  2 ++
- arch/riscv/include/asm/bitops.h           |  1 +
- arch/s390/include/asm/bitops.h            |  1 +
- arch/sh/include/asm/bitops.h              |  1 +
- arch/x86/include/asm/bitops.h             |  2 ++
- arch/xtensa/include/asm/bitops.h          |  1 +
- include/asm-generic/bitops/arch_parity.h  | 28 ++++++++++++++++++
- include/asm-generic/bitops/const_parity.h | 35 +++++++++++++++++++++++
- include/asm-generic/bitops/parity.h       |  8 ++++++
- 20 files changed, 92 insertions(+)
- create mode 100644 include/asm-generic/bitops/arch_parity.h
- create mode 100644 include/asm-generic/bitops/const_parity.h
- create mode 100644 include/asm-generic/bitops/parity.h
+    spd-5118 parity 1/2
+    
+    The functions are similar to hweight*(), but somewhat simpler as they
+    only need to compute the bottom bit of the result. Thus, it almost
+    always makes sense to inline them.
+    
+    Architectures that have non-generic versions should only include
+    `const_parity.h` and override `arch_parity.h`.
+    
+    Signed-off-by: Hristo Venev <hristo@venev.name>
+    Co-authored-by: Carl Kittelberger <icedream@icedream.pw>
 
 diff --git a/arch/alpha/include/asm/bitops.h b/arch/alpha/include/asm/bitops.h
 index 3e33621922c3..85486314b65b 100644
@@ -186,13 +162,13 @@ index 671ecc6711e3..99773bb38265 100644
  #include <asm-generic/bitops/instrumented-atomic.h>
  #include <asm-generic/bitops/instrumented-lock.h>
 diff --git a/arch/riscv/include/asm/bitops.h b/arch/riscv/include/asm/bitops.h
-index 224b4dc02b50..8eadd53171a9 100644
+index 329d8244a9b3..69f6d4da53c6 100644
 --- a/arch/riscv/include/asm/bitops.h
 +++ b/arch/riscv/include/asm/bitops.h
-@@ -272,6 +272,7 @@ static __always_inline int variable_fls(unsigned int x)
- #include <asm-generic/bitops/sched.h>
+@@ -274,6 +274,7 @@ static __always_inline int variable_fls(unsigned int x)
+ #include <asm/arch_hweight.h>
  
- #include <asm-generic/bitops/hweight.h>
+ #include <asm-generic/bitops/const_hweight.h>
 +#include <asm-generic/bitops/parity.h>
  
  #if (BITS_PER_LONG == 64)
@@ -335,6 +311,3 @@ index 000000000000..229b08a57d5f
 +#include <asm-generic/bitops/arch_parity.h>
 +
 +#endif /* _ASM_GENERIC_BITOPS_PARITY_H_ */
--- 
-2.43.0
-

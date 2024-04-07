@@ -16,18 +16,14 @@ add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
 add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
 add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 
-# add VRR fix for Framework
-add#source#drm-amd-display-use-freesync-when-DRM-EDID-FEATURE-CONTINUOUS-FREQ-found.patch::https://lore.kernel.org/amd-gfx/20240308194057.23494-1-mario.limonciello@amd.com/raw
-add#sha256sums#8ae1798c12041c350bdc239af7789143c35b73dfac28b839a4fe200e05f13fad
-
 # disable GCC plugins so we can use distcc
 replace#config.x86_64#CONFIG_HAVE_GCC_PLUGINS=y#CONFIG_HAVE_GCC_PLUGINS=n
 replace#config.x86_64#CONFIG_GCC_PLUGINS=y#CONFIG_GCC_PLUGINS=n
 
-# add +icedream.14 to final package version without disturbing the script
+# add +icedream.15 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.14
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.15

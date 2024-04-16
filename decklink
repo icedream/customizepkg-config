@@ -1,10 +1,13 @@
-# get ahead of package maintainer to update package to 12.8.1
-replace#global#pkgver=12.7#pkgver=12.8.1
+# get ahead of package maintainer to update package to 12.8.2
+replace#global#pkgver=12.7#pkgver=12.8.2
 replace#global#b94e51eb5c6c45c48a04b09b72989448#0636d85539fd4446a24f5952223cc1ec
 replace#global#71c8b827e80f2c42e742acf0239fca173261eb7afe31c34944ffe30176226a14#aff42d039fe1d1fbe5c5df61f0b2434a75067a4e3c861a705dff5f4083e60c02
 
-# add +icedream.1 to final package version without disturbing the script
+# add secure boot signing key generation & post-install messages to help user in getting module to work under secure boot mode
+patch#pkgbuild#../decklink.patches/0001-Add-signing-key-generation-post-install-secure-boot-.patch
+
+# add +icedream.2 to final package version without disturbing the script
 replace#global#^pkgver=#_orig_pkgver=
 replace#global#$pkgver#\$_orig_pkgver
 replace#global#${pkgver}#\${_orig_pkgver}
-addline#global#_orig_pkgver=#pkgver=\${_orig_pkgver}+icedream.1
+addline#global#_orig_pkgver=#pkgver=\${_orig_pkgver}+icedream.2

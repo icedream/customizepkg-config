@@ -1,0 +1,9 @@
+# get ahead of package maintainer to update package to 1.4.1
+replace#global#pkgver=1.3.3#pkgver=1.4.1
+replace#global#6f48cad0addd92b922ba7123c0e8700ef3a019a930b3ae8cac2138e62dbd3af1#af7adbdfbf26d297056afdc95e5f9eed390a3c668c15a358fb135fc8b3188ac6
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#^pkgver=#_orig_pkgver=
+replace#global#$pkgver#\$_orig_pkgver
+replace#global#${pkgver}#\${_orig_pkgver}
+addline#global#_orig_pkgver=#pkgver=\${_orig_pkgver}+icedream.1

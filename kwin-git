@@ -1,15 +1,9 @@
 patch#pkgbuild#../kwin-git.patches/0001-Apply-patches.patch
 
-# fix for https://bugs.kde.org/452553
-#add#source#0000-backends-drm-dont-wake-displays-up-when-outputs-get-temporarily-removed.patch::https://invent.kde.org/plasma/kwin/-/commit/0a6d5a7b271c060acdb737369da993f5149641b7.patch
-#add#sha256sums#200495a7da595aa48a9c224f650f303ab56ed5fb1970d2bd611bed434720730a
-add#source#0000-backends-drm-dont-wake-displays-up-when-outputs-get-temporarily-removed.patch::https://invent.kde.org/plasma/kwin/-/commit/d544648901432c1bb4dcd55b8258e5e9c38d2899.patch
-add#sha256sums#11f308affdf75d15682f57d5ef16e4a0e41e2047c10df20569dc7217ab548958
-
-# add +icedream.1 to final package version without disturbing the script
+# add +icedream.2 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2

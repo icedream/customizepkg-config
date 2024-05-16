@@ -16,14 +16,20 @@ add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
 add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
 add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
 
+# add patches to fix some devices not being powered off properly when going to S5 sleep
+add#source#A100-PCI-Avoid-runtime-resuming-devices-if-system-is-shutting-down.patch::https://lore.kernel.org/lkml/20231213182656.6165-2-mario.limonciello@amd.com/raw
+add#sha256sums#4ec94520925709fcc1a76b2e174a26e60b898f7036383b5ba961b0664a43782f
+add#source#A101-PCI-portdrv-Place-PCIe-port-hierarchy-into-D3cold-at-shutdown.patch::https://lore.kernel.org/lkml/20231213182656.6165-3-mario.limonciello@amd.com/raw
+add#sha256sums#475c6197739a50b7109bb0c6328af4c4a04e931ba5abc59a2e97f836e478b6c1
+
 # disable GCC plugins so we can use distcc
 replace#config.x86_64#CONFIG_HAVE_GCC_PLUGINS=y#CONFIG_HAVE_GCC_PLUGINS=n
 replace#config.x86_64#CONFIG_GCC_PLUGINS=y#CONFIG_GCC_PLUGINS=n
 
-# add +icedream.15 to final package version without disturbing the script
+# add +icedream.16 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.15
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.16

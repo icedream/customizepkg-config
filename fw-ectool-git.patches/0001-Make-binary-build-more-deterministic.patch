@@ -1,0 +1,33 @@
+From e7856d4fb60b43f59f86d0ae4ac45b02f4578bf7 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Thu, 23 May 2024 23:24:53 +0200
+Subject: [PATCH 1/4] Make binary build more deterministic.
+
+---
+ PKGBUILD | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/PKGBUILD b/PKGBUILD
+index f14384c..af142ca 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -21,8 +21,14 @@ pkgver() {
+ build() {
+   cd "$srcdir/ectool"
+   mkdir -p build && cd build
+-  cmake ..
+-  make PREFIX=/usr
++  # remove $srcdir reference by making the compiler strip it out
++  CXXFLAGS="${CXXFLAGS:-} -fmacro-prefix-map=${srcdir}="
++  cmake .. \
++    -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
++    -DCMAKE_BUILD_TYPE=None \
++    -DCMAKE_INSTALL_PREFIX='/usr' \
++    -Wno-dev
++  cmake --build .
+ }
+ 
+ package() {
+-- 
+2.45.1
+

@@ -6,6 +6,13 @@ errors=()
 
 while read -d $'\0' customizepkgfile
 do
+	# ignore certain standard files
+	case "$customizepkgfile" in
+	*.md)
+		continue
+		;;
+	esac
+
 	package="$(basename "$customizepkgfile")"
 	echo "** Testing package: $package" >&2
 

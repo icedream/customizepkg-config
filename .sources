@@ -14,7 +14,6 @@ fw-ectool-git https://aur.archlinux.org/fw-ectool-git.git
 ghorg https://aur.archlinux.org/ghorg.git
 gpgsync https://aur.archlinux.org/gpgsync.git
 gr-osmosdr-git https://aur.archlinux.org/gr-osmosdr-git.git
-grpcui https://aur.archlinux.org/grpcui.git
 kwin https://gitlab.archlinux.org/archlinux/packaging/packages/kwin.git
 kwin-git https://aur.archlinux.org/kwin-git.git
 linux-amd https://aur.archlinux.org/linux-amd.git

@@ -1,4 +1,7 @@
-patch#pkgbuild#../mixxx-git.patches/0001-Use-whanake-music-prime4_mapping-branch.patch
+# add whanake's prime4 controller preset files
+add#source#0001-Denon-Prime-4-MIDI-Mapping.patch::https://github.com/mixxxdj/mixxx/pull/4027.patch?commit_id=b5c7cca3efc8bbb123a5445fb10ef9606398fe2c
+#add#sha256sums#cf9eb191a50ad3515ae5d6a0f4c7a5516d408331c49e52c8d3a68544b3da7c42
+add#md5sums#dc64559aee45de0202776d7dcb81b863
 
 # fix libdjinterop parallel build breaking flow
 addline#global#build()#make -C "$srcdir/${pkgname%-*}/build" -j$(nproc) libdjinterop
@@ -7,10 +10,12 @@ addline#global#build()#make -C "$srcdir/${pkgname%-*}/build" -j$(nproc) libdjint
 addline#global#prepare()#export PKG_CONFIG_PATH=/usr/lib/taglib1/lib/pkgconfig
 addline#global#build()#export PKG_CONFIG_PATH=/usr/lib/taglib1/lib/pkgconfig
 addline#global#package()#export PKG_CONFIG_PATH=/usr/lib/taglib1/lib/pkgconfig
-addline#global#prepare()#(cd "$srcdir/${pkgname%-*}" && for patch in "$srcdir"/*-*.patch; do patch -p1 -i "$patch"; done)
 
-# add +icedream.2 to final package version without disturbing the script
+## apply patch files
+#addline#global#prepare()#(cd "$srcdir/${pkgname%-*}" && for patch in "$srcdir"/*-*.patch; do patch -p1 -i "$patch"; done)
+
+# add +icedream.3 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.3

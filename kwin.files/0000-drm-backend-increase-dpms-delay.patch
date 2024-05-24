@@ -1,0 +1,8 @@
+diff -urp1 a/src/backends/drm/drm_backend.cpp b/src/backends/drm/drm_backend.cpp
+--- a/src/backends/drm/drm_backend.cpp	2024-05-08 00:31:25.572502200 +0200
++++ b/src/backends/drm/drm_backend.cpp	2024-05-08 00:30:55.182518902 +0200
+@@ -246,3 +246,3 @@ void DrmBackend::removeOutput(DrmAbstrac
+         m_recentlyUnpluggedDpmsOffOutputs.push_back(id);
+-        QTimer::singleShot(1000, this, [this, id]() {
++        QTimer::singleShot(10000, this, [this, id]() {
+             m_recentlyUnpluggedDpmsOffOutputs.removeOne(id);

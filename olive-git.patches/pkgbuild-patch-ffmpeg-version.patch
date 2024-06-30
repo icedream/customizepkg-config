@@ -1,0 +1,46 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index 99088f8..ca1e4b9 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -8,7 +8,7 @@ arch=('x86_64')
+ pkgdesc="Free non-linear video editor"
+ url="https://www.olivevideoeditor.org/"
+ license=('GPL-3.0-or-later')
+-depends=('ffmpeg' 'openimageio' 'opentimelineio' 'portaudio' 'qt5-x11extras')
++depends=('ffmpeg6.1' 'openimageio' 'opentimelineio' 'portaudio' 'qt5-x11extras')
+ makedepends=('cmake' 'git' 'ninja' 'qt5-svg' 'qt5-tools')
+ 
+ # Temporarily, the "olive-git" package is incompatible
+@@ -42,10 +42,32 @@ prepare(){
+ 
+   # Add support for OpenColorIO version 2.3
+   patch --forward --strip=1 --input="$srcdir"/support_ocio_2_3.patch
++
++  # Patch FFmpeg version
++  (
++    cd ext/core
++    patch --forward --strip=1 --input="$srcdir"/core_patch_ffmpeg_version.patch
++    patch --forward --strip=1 --input="$srcdir"/cmake_patch_ffmpeg_version_range.patch
++  )
++  patch --forward --strip=1 --input="$srcdir"/olive_patch_ffmpeg_version.patch
++  patch --forward --strip=1 --input="$srcdir"/cmake_patch_ffmpeg_version_range.patch
+ }
+ 
+ build() {
+   cd $_pkgname
+   cmake -GNinja \
+         -Bbuild \
++        -DFFMPEG_avcodec_INCLUDE_DIR=/usr/include/ffmpeg6.1/ \
++        -DFFMPEG_avfilter_INCLUDE_DIR=/usr/include/ffmpeg6.1 \
++        -DFFMPEG_avformat_INCLUDE_DIR=/usr/include/ffmpeg6.1 \
++        -DFFMPEG_avutil_INCLUDE_DIR=/usr/include/ffmpeg6.1 \
++        -DFFMPEG_swresample_INCLUDE_DIR=/usr/include/ffmpeg6.1 \
++        -DFFMPEG_swscale_INCLUDE_DIR=/usr/include/ffmpeg6.1 \
++        -DFFMPEG_avcodec_LIBRARY=/usr/lib/ffmpeg6.1/libavcodec.so \
++        -DFFMPEG_avfilter_LIBRARY=/usr/lib/ffmpeg6.1/libavfilter.so \
++        -DFFMPEG_avformat_LIBRARY=/usr/lib/ffmpeg6.1/libavformat.so \
++        -DFFMPEG_avutil_LIBRARY=/usr/lib/ffmpeg6.1/libavutil.so \
++        -DFFMPEG_swresample_LIBRARY=/usr/lib/ffmpeg6.1/libswresample.so \
++        -DFFMPEG_swscale_LIBRARY=/usr/lib/ffmpeg6.1/libswscale.so \
++        -DCMAKE_SYSTEM_LIBRARY_PATH=/usr/lib/ffmpeg6.1:/usr/lib \
+         -DCMAKE_BUILD_TYPE=RelWithDebInfo \

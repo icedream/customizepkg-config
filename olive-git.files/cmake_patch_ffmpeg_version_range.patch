@@ -1,0 +1,12 @@
+diff --git a/cmake/FindFFMPEG.cmake b/cmake/FindFFMPEG.cmake
+index 3d36bb0..a1e44d7 100755
+--- a/cmake/FindFFMPEG.cmake
++++ b/cmake/FindFFMPEG.cmake
+@@ -193,5 +193,6 @@ include(FindPackageHandleStandardArgs)
+ find_package_handle_standard_args(FFMPEG
+   REQUIRED_VARS FFMPEG_INCLUDE_DIRS FFMPEG_LIBRARIES ${_ffmpeg_required_vars}
+   VERSION_VAR FFMPEG_VERSION
+-  HANDLE_COMPONENTS)
++  HANDLE_COMPONENTS
++  HANDLE_VERSION_RANGE)
+ unset(_ffmpeg_required_vars)

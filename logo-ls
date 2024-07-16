@@ -1,0 +1,10 @@
+patch#pkgbuild#../logo-ls.patches/0001-Apply-patches.patch
+
+add#source#46.patch::https://github.com/Yash-Handa/logo-ls/pull/46.patch?commit_id=8113fe34764d3d1f148119ab34b69175dadade22
+add#md5sums#00098f35459bc5bf03de32c6a91525c6
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

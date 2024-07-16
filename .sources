@@ -15,6 +15,7 @@ gr-osmosdr-git https://aur.archlinux.org/gr-osmosdr-git.git
 linux-amd https://aur.archlinux.org/linux-amd.git
 linux-amd-drm-next https://aur.archlinux.org/linux-amd-drm-next.git
 linux-firmware https://gitlab.archlinux.org/archlinux/packaging/packages/linux-firmware.git
+logo-ls https://aur.archlinux.org/logo-ls.git
 matchbox https://aur.archlinux.org/matchbox.git
 mixxx-git https://aur.archlinux.org/mixxx-git.git
 olive-git https://aur.archlinux.org/olive-git.git

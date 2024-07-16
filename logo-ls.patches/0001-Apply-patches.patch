@@ -1,0 +1,14 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index 0d6589d..89b5294 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -19,6 +19,9 @@ md5sums=('62da2311badaa1445312e63b4232991c')
+ 
+ prepare() {
+     cd "$pkgname"-"$pkgver"
++    for patch in "${srcdir}"/*.patch; do
++        patch -p1 -i "$patch"
++    done
+     go mod tidy
+ }
+ 

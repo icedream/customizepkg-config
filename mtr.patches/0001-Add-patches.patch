@@ -1,0 +1,16 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index e5a4af0..4643163 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -24,6 +24,11 @@ sha512sums=('a7d69e0c551a10ae80a650a34588119e6c6b124a8c2c93d3de29e5daa6ef99f9217
+ b2sums=('3c972675b97945b96562802c5d0f10de963160682c93c0ea2991b72eca33d136d18948c5e746ca3dfb280ebc9c3ab154e7774f8409ed4e5f7470a8feb128e71b')
+ 
+ prepare() {
++  (cd "${pkgbase}-${pkgver}"
++    for patch in "${srcdir}"/*.patch; do
++      patch -p1 -i "${patch}"
++    done
++  )
+   (cd ${pkgbase}-${pkgver}
+     echo "${pkgver}" > .tarball-version
+     autoreconf -fiv

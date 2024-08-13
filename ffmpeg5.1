@@ -1,6 +1,13 @@
-# add +icedream.4 to final package version without disturbing the script
-replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.4' "$(_pkgver "$@")"\n}\n_pkgver()
+patch#pkgbuild#../ffmpeg5.1.patches/0001-Revert-disabling-of-libplacebo-nvenc.patch
+
+# re-add commit 1231003 backport
+#patch#ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch#../ffmpeg5.1.patches/0001-Revert-disabling-of-libplacebo-nvenc.patch
+add#source#ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch::https://aur.archlinux.org/cgit/aur.git/plain/ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch?h=ffmpeg5.1\&id=a24fe152d85b896e8888398b97ce3ed40afc0121
+add#b2sums#e44b4415a4071bbc9c56be5683fc9636a4d999366b8df8cb661f90a82e71a38161ce91da9e1fde7966dbf4940ec68eb3993ec9e903ff8792b945bf4ce9062c19
+
+# add +icedream.5 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.5' "$(_pkgver "$@")"\n}\n_pkgver()
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.4
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.5

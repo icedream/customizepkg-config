@@ -1,0 +1,207 @@
+From 282ee63bb0a98596cc70e1a35a8ab9f7892234c8 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Tue, 13 Aug 2024 12:23:51 +0200
+Subject: [PATCH] Revert disabling of libplacebo & nvenc.
+
+This partially reverts commit 56f5e3400132743c62b87a1148830cba25537de1.
+---
+ .SRCINFO                                      | 12 +++--
+ PKGBUILD                                      | 36 +++++++------
+ ...1003-fix_libplacebo_v6_compatibility.patch | 53 +++++++++++++++++++
+ 3 files changed, 82 insertions(+), 19 deletions(-)
+ create mode 100644 ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch
+
+diff --git a/.SRCINFO b/.SRCINFO
+index fd76193..1c19fc3 100644
+--- a/.SRCINFO
++++ b/.SRCINFO
+@@ -41,6 +41,7 @@ pkgbase = ffmpeg5.1
+ 	depends = libgl
+ 	depends = libiec61883
+ 	depends = libmodplug
++	depends = libplacebo
+ 	depends = libpulse
+ 	depends = libraw1394
+ 	depends = librsvg
+@@ -79,11 +80,13 @@ pkgbase = ffmpeg5.1
+ 	optdepends = ladspa: LADSPA filters
+ 	provides = ffmpeg-compat-59
+ 	conflicts = ffmpeg-compat-59
+	source = git+https://git.ffmpeg.org/ffmpeg.git?signed#tag=n5.1.6
++	source = ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch
+ 	validpgpkeys = DD1EC9E8DE085C629B3E1846B18E8928B3948D64
+ 	b2sums = SKIP
++	b2sums = e44b4415a4071bbc9c56be5683fc9636a4d999366b8df8cb661f90a82e71a38161ce91da9e1fde7966dbf4940ec68eb3993ec9e903ff8792b945bf4ce9062c19
+ 	depends_x86_64 = libmfx
+-	optdepends_x86_64 = nvidia-utils: Nvidia NVDEC support (NVENC no longer supported by this FFMPEG version)
++	optdepends_x86_64 = nvidia-utils: Nvidia NVDEC/NVENC support
+ 
+ pkgname = ffmpeg5.1
+ 	depends = alsa-lib
+@@ -109,6 +112,7 @@ pkgname = ffmpeg5.1
+ 	depends = libgl
+ 	depends = libiec61883
+ 	depends = libmodplug
++	depends = libplacebo
+ 	depends = libpulse
+ 	depends = libraw1394
+ 	depends = librsvg
+diff --git a/PKGBUILD b/PKGBUILD
+index f312d1f..0a229a8 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -10,11 +10,15 @@
+ 
+ _pkgname=ffmpeg
+ pkgname="${_pkgname}5.1"
+-pkgver=5.1.6
+-pkgrel=1
++pkgver=5.1.4
++pkgrel=3
+ epoch=1
+ pkgdesc='Complete solution to record, convert and stream audio and video (legacy v5.1 branch, with libavcodec v59)'
+-arch=(aarch64 i686 x86_64)
++arch=(
++  aarch64
++  i686
++  x86_64
++)
+ url="https://${_pkgname}.org"
+ license=('GPL-3.0-or-later')
+ depends=(
+@@ -41,6 +45,7 @@ depends=(
+   libgl
+   libiec61883
+   libmodplug
++  libplacebo
+   libpulse
+   libraw1394
+   librsvg
+@@ -94,12 +99,14 @@ optdepends=(
+   'ladspa: LADSPA filters'
+ )
+ optdepends_x86_64=(
+-  'nvidia-utils: Nvidia NVDEC support (NVENC no longer supported by this FFMPEG version)'
++  'nvidia-utils: Nvidia NVDEC/NVENC support'
+ )
+ provides=(ffmpeg-compat-59)
+ conflicts=(ffmpeg-compat-59)
+-source=("git+https://git.${_pkgname}.org/${_pkgname}.git?signed#tag=n${pkgver}")
+-b2sums=('SKIP')
++source=("git+https://git.${_pkgname}.org/${_pkgname}.git?signed#tag=n${pkgver}"
++        ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch)
++b2sums=('SKIP'
++        'e44b4415a4071bbc9c56be5683fc9636a4d999366b8df8cb661f90a82e71a38161ce91da9e1fde7966dbf4940ec68eb3993ec9e903ff8792b945bf4ce9062c19')
+ validpgpkeys=(DD1EC9E8DE085C629B3E1846B18E8928B3948D64) # Michael Niedermayer <michael@niedermayer.cc>
+ 
+ prepare() {
+@@ -107,16 +114,15 @@ prepare() {
+   echo "Applying patches for ffnvcodec SDK 12.1..."
+   git cherry-pick -n 03823ac0c6a38bd6ba972539e3203a592579792f
+   git cherry-pick -n d2b46c1ef768bc31ba9180f6d469d5b8be677500
+-
++  
+   echo "Applying patch to check for vulkan-headers 1.3+ instead of 1.2+..."
+   git cherry-pick -n 59707cc485c7fcc1c06b96648ce605ed558da4ac
+ 
+-#   # loop to apply any *.patch files from AUR source, if any exists.
+-#   for _patchfile in ../*.patch
+-#   do
+-#     echo "Applying patch file ${_patchfile}..."
+-#     patch --force --forward --strip=2 --input="${_patchfile}"
+-#   done
++  for _patchfile in "${srcdir}"/*.patch
++  do
++    echo "Applying patch file ${_patchfile}..."
++    patch --force --forward --strip=2 --input="${_patchfile}"
++  done
+ }
+ 
+ build() {
+@@ -129,7 +135,6 @@ build() {
+     --disable-debug
+     --disable-doc
+     --disable-libopenjpeg
+-    --disable-libplacebo
+     --disable-libspeex
+     --disable-libvmaf
+     --disable-libxvid
+@@ -165,6 +170,7 @@ build() {
+     --enable-libopencore_amrnb
+     --enable-libopencore_amrwb
+     --enable-libopus
++    --enable-libplacebo
+     --enable-libpulse
+     --enable-librav1e
+     --enable-librsvg
+@@ -211,7 +217,7 @@ build() {
+       --enable-cuda-llvm
+       --enable-libmfx
+       --enable-nvdec
+-      --disable-nvenc
++      --enable-nvenc
+     )
+ 
+   ./configure "${_build_opts[@]}"
+diff --git a/ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch b/ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch
+new file mode 100644
+index 0000000..086aa17
+--- /dev/null
++++ b/ffmpeg5.1-commit_1231003-fix_libplacebo_v6_compatibility.patch
+@@ -0,0 +1,53 @@
++diff --git c/ffmpeg/doc/filters.texi i/ffmpeg/doc/filters.texi
++index 40f21fb34c..41c3f512be 100644
++--- c/ffmpeg/doc/filters.texi
+++++ i/ffmpeg/doc/filters.texi
++@@ -15736,9 +15736,6 @@ Disable linear light scaling.
++ @item disable_builtin
++ Disable built-in GPU sampling (forces LUT).
++ 
++-@item force_icc_lut
++-Force the use of a full ICC 3DLUT for gamut mapping.
++-
++ @item disable_fbos
++ Forcibly disable FBOs, resulting in loss of almost all functionality, but
++ offering the maximum possible speed.
++diff --git c/ffmpeg/libavfilter/vf_libplacebo.c i/ffmpeg/libavfilter/vf_libplacebo.c
++index cfee1117e8..ec1bafbbde 100644
++--- c/ffmpeg/libavfilter/vf_libplacebo.c
+++++ i/ffmpeg/libavfilter/vf_libplacebo.c
++@@ -90,7 +90,6 @@ typedef struct LibplaceboContext {
++     float polar_cutoff;
++     int disable_linear;
++     int disable_builtin;
++-    int force_icc_lut;
++     int force_dither;
++     int disable_fbos;
++ 
++@@ -130,6 +129,7 @@ typedef struct LibplaceboContext {
++     float desat_exp;
++     int gamut_warning;
++     int gamut_clipping;
+++    int force_icc_lut;
++ 
++      /* pl_dither_params */
++     int dithering;
++@@ -416,7 +416,6 @@ static int process_frames(AVFilterContext *avctx, AVFrame *out, AVFrame *in)
++         .polar_cutoff = s->polar_cutoff,
++         .disable_linear_scaling = s->disable_linear,
++         .disable_builtin_scalers = s->disable_builtin,
++-        .force_icc_lut = s->force_icc_lut,
++         .force_dither = s->force_dither,
++         .disable_fbos = s->disable_fbos,
++     };
++@@ -721,7 +720,9 @@ static const AVOption libplacebo_options[] = {
++     { "polar_cutoff", "Polar LUT cutoff", OFFSET(polar_cutoff), AV_OPT_TYPE_FLOAT, {.dbl = 0}, 0.0, 1.0, DYNAMIC },
++     { "disable_linear", "Disable linear scaling", OFFSET(disable_linear), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC },
++     { "disable_builtin", "Disable built-in scalers", OFFSET(disable_builtin), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC },
++-    { "force_icc_lut", "Force the use of a full ICC 3DLUT for color mapping", OFFSET(force_icc_lut), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC },
+++#if FF_API_LIBPLACEBO_OPTS
+++    { "force_icc_lut", "Deprecated, does nothing", OFFSET(force_icc_lut), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC | AV_OPT_FLAG_DEPRECATED },
+++#endif
++     { "force_dither", "Force dithering", OFFSET(force_dither), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC },
++     { "disable_fbos", "Force-disable FBOs", OFFSET(disable_fbos), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, DYNAMIC },
++     { NULL },
+-- 
+2.46.0
+

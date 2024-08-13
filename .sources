@@ -8,6 +8,7 @@ cubicsdr-git https://aur.archlinux.org/cubicsdr-git.git
 customizepkg-git https://aur.archlinux.org/customizepkg-git.git
 davinci-resolve https://aur.archlinux.org/davinci-resolve.git
 decklink https://aur.archlinux.org/decklink.git
+ffmpeg5.1 https://aur.archlinux.org/ffmpeg5.1.git
 fw-ectool-git https://aur.archlinux.org/fw-ectool-git.git
 ghorg https://aur.archlinux.org/ghorg.git
 gpgsync https://aur.archlinux.org/gpgsync.git

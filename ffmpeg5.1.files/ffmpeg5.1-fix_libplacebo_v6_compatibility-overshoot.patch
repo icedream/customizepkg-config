@@ -1,0 +1,41 @@
+diff -ur c/ffmpeg/libavfilter/vf_libplacebo.c i/ffmpeg/libavfilter/vf_libplacebo.c
+--- c/ffmpeg/libavfilter/vf_libplacebo.c	2024-08-13 02:34:38.849756832 +0200
++++ i/ffmpeg/libavfilter/vf_libplacebo.c	2024-08-13 02:36:36.211063603 +0200
+@@ -113,7 +113,6 @@
+     float min_peak;
+     float scene_low;
+     float scene_high;
+-    float overshoot;
+ 
+     /* pl_color_map_params */
+     int intent;
+@@ -130,6 +129,7 @@
+     int gamut_warning;
+     int gamut_clipping;
+     int force_icc_lut;
++    float overshoot;
+ 
+      /* pl_dither_params */
+     int dithering;
+@@ -384,7 +384,9 @@
+             .minimum_peak = s->min_peak,
+             .scene_threshold_low = s->scene_low,
+             .scene_threshold_high = s->scene_high,
++#if FF_API_LIBPLACEBO_OPTS && PL_API_VER < 256
+             .overshoot_margin = s->overshoot,
++#endif
+         ),
+ 
+         .color_map_params = pl_color_map_params(
+@@ -658,8 +660,9 @@
+     { "minimum_peak", "Peak detection minimum peak", OFFSET(min_peak), AV_OPT_TYPE_FLOAT, {.dbl = 1.0}, 0.0, 100.0, DYNAMIC },
+     { "scene_threshold_low", "Scene change low threshold", OFFSET(scene_low), AV_OPT_TYPE_FLOAT, {.dbl = 5.5}, -1.0, 100.0, DYNAMIC },
+     { "scene_threshold_high", "Scene change high threshold", OFFSET(scene_high), AV_OPT_TYPE_FLOAT, {.dbl = 10.0}, -1.0, 100.0, DYNAMIC },
+-    { "overshoot", "Tone-mapping overshoot margin", OFFSET(overshoot), AV_OPT_TYPE_FLOAT, {.dbl = 0.05}, 0.0, 1.0, DYNAMIC },
+-
++#if FF_API_LIBPLACEBO_OPTS
++    { "overshoot", "Tone-mapping overshoot margin", OFFSET(overshoot), AV_OPT_TYPE_FLOAT, {.dbl = 0.05}, 0.0, 1.0, DYNAMIC | AV_OPT_FLAG_DEPRECATED },
++#endif
+     { "intent", "Rendering intent", OFFSET(intent), AV_OPT_TYPE_INT, {.i64 = PL_INTENT_RELATIVE_COLORIMETRIC}, 0, 3, DYNAMIC, "intent" },
+         { "perceptual", "Perceptual", 0, AV_OPT_TYPE_CONST, {.i64 = PL_INTENT_PERCEPTUAL}, 0, 0, STATIC, "intent" },
+         { "relative", "Relative colorimetric", 0, AV_OPT_TYPE_CONST, {.i64 = PL_INTENT_RELATIVE_COLORIMETRIC}, 0, 0, STATIC, "intent" },

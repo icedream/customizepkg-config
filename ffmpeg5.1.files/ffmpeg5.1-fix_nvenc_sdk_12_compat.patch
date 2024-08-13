@@ -1,0 +1,144 @@
+diff --git c/ffmpeg/libavcodec/nvenc.c i/ffmpeg/libavcodec/nvenc.c
+index 288d2c4bfc..3afbddd359 100644
+--- c/ffmpeg/libavcodec/nvenc.c
++++ i/ffmpeg/libavcodec/nvenc.c
+@@ -1187,6 +1187,11 @@ static av_cold int nvenc_setup_h264_config(AVCodecContext *avctx)
+ 
+     h264->level = ctx->level;
+ 
++#ifdef NVENC_HAVE_NEW_BIT_DEPTH_API
++    h264->inputBitDepth = h264->outputBitDepth =
++        IS_10BIT(ctx->data_pix_fmt) ? NV_ENC_BIT_DEPTH_10 : NV_ENC_BIT_DEPTH_8;
++#endif
++
+     if (ctx->coder >= 0)
+         h264->entropyCodingMode = ctx->coder;
+ 
+@@ -1290,7 +1295,12 @@ static av_cold int nvenc_setup_hevc_config(AVCodecContext *avctx)
+ 
+     hevc->chromaFormatIDC = IS_YUV444(ctx->data_pix_fmt) ? 3 : 1;
+ 
++#ifdef NVENC_HAVE_NEW_BIT_DEPTH_API
++    hevc->inputBitDepth = hevc->outputBitDepth =
++        IS_10BIT(ctx->data_pix_fmt) ? NV_ENC_BIT_DEPTH_10 : NV_ENC_BIT_DEPTH_8;
++#else
+     hevc->pixelBitDepthMinus8 = IS_10BIT(ctx->data_pix_fmt) ? 2 : 0;
++#endif
+ 
+     hevc->level = ctx->level;
+ 
+@@ -1308,6 +1318,90 @@ static av_cold int nvenc_setup_hevc_config(AVCodecContext *avctx)
+     return 0;
+ }
+ 
++#if CONFIG_AV1_NVENC_ENCODER
++static av_cold int nvenc_setup_av1_config(AVCodecContext *avctx)
++{
++    NvencContext *ctx      = avctx->priv_data;
++    NV_ENC_CONFIG *cc      = &ctx->encode_config;
++    NV_ENC_CONFIG_AV1 *av1 = &cc->encodeCodecConfig.av1Config;
++
++    const AVPixFmtDescriptor *pixdesc = av_pix_fmt_desc_get(ctx->data_pix_fmt);
++
++    if ((pixdesc->flags & AV_PIX_FMT_FLAG_RGB) && !IS_GBRP(ctx->data_pix_fmt)) {
++        av1->matrixCoefficients = AVCOL_SPC_BT470BG;
++        av1->colorPrimaries = avctx->color_primaries;
++        av1->transferCharacteristics = avctx->color_trc;
++        av1->colorRange = 0;
++    } else {
++        av1->matrixCoefficients = IS_GBRP(ctx->data_pix_fmt) ? AVCOL_SPC_RGB : avctx->colorspace;
++        av1->colorPrimaries = avctx->color_primaries;
++        av1->transferCharacteristics = avctx->color_trc;
++        av1->colorRange = (avctx->color_range == AVCOL_RANGE_JPEG
++            || ctx->data_pix_fmt == AV_PIX_FMT_YUVJ420P || ctx->data_pix_fmt == AV_PIX_FMT_YUVJ422P || ctx->data_pix_fmt == AV_PIX_FMT_YUVJ444P);
++    }
++
++    if (IS_YUV444(ctx->data_pix_fmt)) {
++        av_log(avctx, AV_LOG_ERROR, "AV1 High Profile not supported, required for 4:4:4 encoding\n");
++        return AVERROR(ENOTSUP);
++    } else {
++        cc->profileGUID = NV_ENC_AV1_PROFILE_MAIN_GUID;
++        avctx->profile  = AV_PROFILE_AV1_MAIN;
++    }
++
++    if (ctx->dpb_size >= 0) {
++        /* 0 means "let the hardware decide" */
++        av1->maxNumRefFramesInDPB = ctx->dpb_size;
++    }
++
++    if (ctx->intra_refresh) {
++        av1->enableIntraRefresh = 1;
++        av1->intraRefreshPeriod = cc->gopLength;
++        av1->intraRefreshCnt = cc->gopLength - 1;
++        cc->gopLength = NVENC_INFINITE_GOPLENGTH;
++    }
++
++    av1->idrPeriod = cc->gopLength;
++
++    if (IS_CBR(cc->rcParams.rateControlMode)) {
++        av1->enableBitstreamPadding = 1;
++    }
++
++    if (ctx->tile_cols >= 0)
++        av1->numTileColumns = ctx->tile_cols;
++    if (ctx->tile_rows >= 0)
++        av1->numTileRows = ctx->tile_rows;
++
++    av1->outputAnnexBFormat = 0;
++
++    av1->level = ctx->level;
++    av1->tier = ctx->tier;
++
++    av1->enableTimingInfo = ctx->timing_info;
++
++    /* mp4 encapsulation requires sequence headers to be present on all keyframes for AV1 */
++    av1->disableSeqHdr = 0;
++    av1->repeatSeqHdr  = 1;
++
++    av1->chromaFormatIDC = IS_YUV444(ctx->data_pix_fmt) ? 3 : 1;
++
++#ifdef NVENC_HAVE_NEW_BIT_DEPTH_API
++    av1->inputBitDepth = IS_10BIT(ctx->data_pix_fmt) ? NV_ENC_BIT_DEPTH_10 : NV_ENC_BIT_DEPTH_8;
++    av1->outputBitDepth = (IS_10BIT(ctx->data_pix_fmt) || ctx->highbitdepth) ? NV_ENC_BIT_DEPTH_10 : NV_ENC_BIT_DEPTH_8;
++#else
++    av1->inputPixelBitDepthMinus8 = IS_10BIT(ctx->data_pix_fmt) ? 2 : 0;
++    av1->pixelBitDepthMinus8 = (IS_10BIT(ctx->data_pix_fmt) || ctx->highbitdepth) ? 2 : 0;
++#endif
++
++    if (ctx->b_ref_mode >= 0)
++        av1->useBFramesAsRef = ctx->b_ref_mode;
++
++    av1->numFwdRefs = avctx->refs;
++    av1->numBwdRefs = avctx->refs;
++
++    return 0;
++}
++#endif
++
+ static av_cold int nvenc_setup_codec_config(AVCodecContext *avctx)
+ {
+     switch (avctx->codec->id) {
+diff --git c/ffmpeg/libavcodec/nvenc.h i/ffmpeg/libavcodec/nvenc.h
+index 9eb129952e..2a942bf705 100644
+--- c/ffmpeg/libavcodec/nvenc.h
++++ i/ffmpeg/libavcodec/nvenc.h
+@@ -77,6 +77,16 @@ typedef void ID3D11Device;
+ #define NVENC_HAVE_SINGLE_SLICE_INTRA_REFRESH
+ #endif
+ 
++// SDK 12.1 compile time feature checks
++#if NVENCAPI_CHECK_VERSION(12, 1)
++#define NVENC_NO_DEPRECATED_RC
++#endif
++
++// SDK 12.2 compile time feature checks
++#if NVENCAPI_CHECK_VERSION(12, 2)
++#define NVENC_HAVE_NEW_BIT_DEPTH_API
++#endif
++
+ typedef struct NvencSurface
+ {
+     NV_ENC_INPUT_PTR input_surface;
+-- 
+2.45.2
+

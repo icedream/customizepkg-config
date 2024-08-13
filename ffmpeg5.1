@@ -1,6 +1,9 @@
-# add +icedream.1 to final package version without disturbing the script
-replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.1' "$(_pkgver "$@")"\n}\n_pkgver()
+add#source#ffmpeg5.1-commit_9999000-nvenc_stop_using_long_deprecated_format_specifiers.patch::https://github.com/FFmpeg/FFmpeg/commit/43b417d516b0fabbec1f02120d948f636b8a018e.patch
+add#b2sums#c8dfbed01442b1173c94ee7f7c7bda59802e86359be7dfcf52e25a05f245deac1ed8f3ca8e43650bef033cbd44c3ac15d32c191d913227da497187fcbbefa954
+
+# add +icedream.2 to final package version without disturbing the script
+replace#global#pkgver()#pkgver() {\n\tprintf '\%s+icedream.2' "$(_pkgver "$@")"\n}\n_pkgver()
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2

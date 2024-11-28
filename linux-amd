@@ -2,19 +2,19 @@
 replace#global#\(^[[:space:]]\+\)\(cp "\${srcdir}"/config.\+\)$#\1\2\n\1echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
 
 # add in-progress SPD5118 module patches written by René Rebe for T2
-add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_4_4.patch
+add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_4_4.patch
 add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
-add#source#A005-spd-5118_parity_3_3.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_3_3.patch
+add#source#A005-spd-5118_parity_3_3.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_3_3.patch
 add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
-add#source#A004-spd-5118_parity_2_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_2_2.patch
+add#source#A004-spd-5118_parity_2_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_2_2.patch
 add#sha256sums#30f1756844ea1cec75def616a3692781cdd8cbf965449bb4af7c86438681633e
-add#source#A003-spd-5118_parity_1_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_parity_1_2.patch
+add#source#A003-spd-5118_parity_1_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_1_2.patch
 add#sha256sums#104b111a2fb63f4281bda496c838d9d0730a6804c0c7cb362cedddf0b87a50ca
-add#source#A002-spd-5118_2_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_2_2.patch
+add#source#A002-spd-5118_2_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_2_2.patch
 add#sha256sums#12e434e5f53d3218da84939a6e146f58d50e3993698423750ac1e046cfd6fef9
-add#source#A001-spd-5118_1_2.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118_1_2.patch
+add#source#A001-spd-5118_1_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_1_2.patch
 add#sha256sums#b0e7a66448a66da3504d10c52a3aa5c4e6c8905fa16a30c89397196c47d747bc
-add#source#A000-spd-5118.patch::http://svn.exactcode.de/t2/trunk/package/kernel/linux/spd-5118.patch
+add#source#A000-spd-5118.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118.patch
 add#sha256sums#665622d90f4f11ab50fd6c2787359e888159079a36c0c5bae423e37824f90da0
 
 # replace spd-5118_parity_1_2.patch with our own compatible copy

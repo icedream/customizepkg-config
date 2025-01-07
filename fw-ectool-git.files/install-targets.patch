@@ -1,8 +1,0 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 7e65887..bf9e5de 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -26 +26,3 @@ if(WIN32)
- endif()
-+
-+install(TARGETS ectool)

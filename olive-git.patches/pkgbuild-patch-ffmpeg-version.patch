@@ -1,17 +1,17 @@
 diff --git a/PKGBUILD b/PKGBUILD
-index 99088f8..ca1e4b9 100644
+index eabce14..352e450 100644
 --- a/PKGBUILD
 +++ b/PKGBUILD
 @@ -8,7 +8,7 @@ arch=('x86_64')
  pkgdesc="Free non-linear video editor"
  url="https://www.olivevideoeditor.org/"
  license=('GPL-3.0-or-later')
--depends=('ffmpeg' 'openimageio' 'opentimelineio' 'portaudio' 'qt5-x11extras')
+-depends=('ffmpeg4.4' 'openimageio' 'opentimelineio' 'portaudio' 'qt5-x11extras')
 +depends=('ffmpeg6.1' 'openimageio' 'opentimelineio' 'portaudio' 'qt5-x11extras')
  makedepends=('cmake' 'git' 'ninja' 'qt5-svg' 'qt5-tools')
  
  # Temporarily, the "olive-git" package is incompatible
-@@ -42,10 +42,32 @@ prepare(){
+@@ -42,15 +42,37 @@ prepare(){
  
    # Add support for OpenColorIO version 2.3
    patch --forward --strip=1 --input="$srcdir"/support_ocio_2_3.patch
@@ -44,3 +44,9 @@ index 99088f8..ca1e4b9 100644
 +        -DFFMPEG_swscale_LIBRARY=/usr/lib/ffmpeg6.1/libswscale.so \
 +        -DCMAKE_SYSTEM_LIBRARY_PATH=/usr/lib/ffmpeg6.1:/usr/lib \
          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+         -DCMAKE_INSTALL_PREFIX=/usr \
+-        -DCMAKE_PREFIX_PATH="/usr/lib/ffmpeg4.4;/usr/include/ffmpeg4.4" \
++        -DCMAKE_PREFIX_PATH="/usr/lib/ffmpeg6.1;/usr/include/ffmpeg6.1" \
+         -DOTIO_DEPS_INCLUDE_DIR=/usr/include/opentimelineio
+   ninja -C build/
+ }

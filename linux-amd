@@ -2,36 +2,10 @@
 add#source#B001-x86-tsc-Use-rdtsc_ordered-when-RDTSCP-or-LFENCE_RDTSC-are-supported.patch::https://bugzilla.kernel.org/attachment.cgi?id=306767
 add#sha256sums#093fa70b917824dcf0557e9a3fcdb067914b2b1ea42486d800a2662d4a2b7f95
 
-# enable SPD5118 module after copying kernel config
-replace#global#\(^[[:space:]]\+\)\(cp "\${srcdir}"/config.\+\)$#\1\2\n\1echo CONFIG_SENSORS_SPD5118=m \>\> ./.config
-
-# add in-progress SPD5118 module patches written by René Rebe for T2
-add#source#A006-spd-5118_parity_4_4.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_4_4.patch
-add#sha256sums#614e68a61c200039eed7ea0e89224bd836e2bb161b07730d310d715efb2adc12
-add#source#A005-spd-5118_parity_3_3.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_3_3.patch
-add#sha256sums#bda3e74e8570711e462542354db815ef1e4400967117fdae7309dd7b4b4002c1
-add#source#A004-spd-5118_parity_2_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_2_2.patch
-add#sha256sums#30f1756844ea1cec75def616a3692781cdd8cbf965449bb4af7c86438681633e
-add#source#A003-spd-5118_parity_1_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_parity_1_2.patch
-add#sha256sums#104b111a2fb63f4281bda496c838d9d0730a6804c0c7cb362cedddf0b87a50ca
-add#source#A002-spd-5118_2_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_2_2.patch
-add#sha256sums#12e434e5f53d3218da84939a6e146f58d50e3993698423750ac1e046cfd6fef9
-add#source#A001-spd-5118_1_2.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118_1_2.patch
-add#sha256sums#b0e7a66448a66da3504d10c52a3aa5c4e6c8905fa16a30c89397196c47d747bc
-add#source#A000-spd-5118.patch::http://svn.exactcode.de/t2/tags/24.8/package/kernel/linux/spd-5118.patch
-add#sha256sums#665622d90f4f11ab50fd6c2787359e888159079a36c0c5bae423e37824f90da0
-
-# replace spd-5118_parity_1_2.patch with our own compatible copy
-replace#global#\(^[[:space:]]\+\)\(\[\[ \$src.\+\)$#\1\2\n\1if \[ -f "\${srcdir}/\$src.file" \]; then src="\$src.file"; fi
-
-# disable GCC plugins so we can use distcc
-replace#config.x86_64#CONFIG_HAVE_GCC_PLUGINS=y#CONFIG_HAVE_GCC_PLUGINS=n
-replace#config.x86_64#CONFIG_GCC_PLUGINS=y#CONFIG_GCC_PLUGINS=n
-
-# add +icedream.20 to final package version without disturbing the script
+# add +icedream.21 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
 replace#global#echo $_pkgver#echo $pkgver
 replace#global#echo ${_pkgver}#echo ${pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.20
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.21

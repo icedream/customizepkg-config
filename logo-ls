@@ -1,13 +1,14 @@
-patch#pkgbuild#../logo-ls.patches/0001-Apply-patches.patch
+# replace original version with forked version
+replace#global#://github.com/Yash-Handa/logo-ls#://github.com/canta2899/logo-ls
+replace#global#pkgver=1.3.7#pkgver=1.4.0
+replace#global#62da2311badaa1445312e63b4232991c#9392c7a763a86807b28edff9b1d0ce4c
 
-add#source#35.patch::https://github.com/Yash-Handa/logo-ls/pull/35.patch?commit_id=57b96ec16906b1a55fde7c4c5c879a098e7f50cb
-add#md5sums#d8cea4063d1a99f7f96efb18865429af
+# fix build command since in the fork command has been moved to cmd/logo-ls
+add#makedepends#make
+replace#global#go build#make logo-ls VERSION=${pkgver}
 
-add#source#46.patch::https://github.com/Yash-Handa/logo-ls/pull/46.patch?commit_id=8113fe34764d3d1f148119ab34b69175dadade22
-add#md5sums#00098f35459bc5bf03de32c6a91525c6
-
-# add +icedream.2 to final package version without disturbing the script
+# add +icedream.1 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=
 replace#global#$pkgver#\$_pkgver
 replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.2
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

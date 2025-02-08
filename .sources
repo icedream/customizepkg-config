@@ -1,8 +1,6 @@
 # This file maps the package names to the package source file repository.
 #
 # Used for automated testing/package builds.
-barrier-git https://aur.archlinux.org/barrier-git.git
-barrier-headless-git https://aur.archlinux.org/barrier-headless-git.git
 cubicsdr https://aur.archlinux.org/cubicsdr.git
 cubicsdr-git https://aur.archlinux.org/cubicsdr-git.git
 customizepkg-git https://aur.archlinux.org/customizepkg-git.git

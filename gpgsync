@@ -1,8 +1,0 @@
-#patch#pkgbuild#../gpgsync.patches/0001-Add-missing-dependency-for-pyside2.patch
-add#depends#pyside2
-
-# add +icedream.1 to final package version without disturbing the script
-replace#global#pkgver=#_pkgver=
-replace#global#$pkgver#\$_pkgver
-replace#global#${pkgver}#\${_pkgver}
-addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

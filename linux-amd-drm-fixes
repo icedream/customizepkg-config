@@ -1,5 +1,6 @@
 # fix wrong config hash
 replace#global#20ff3a47fab59c996c91ec4d0efe84a60ca9f3ff8adae7c61fef480a7fce4b27#7baab4e4a2a0025fd2adbe5796c88acde882ba80dc8219812a933d1a06afd11e
+replace#global#ccae8f9a7773146224f796b753d26031cdca8d859d1a1a787a00de54875e25ce#7baab4e4a2a0025fd2adbe5796c88acde882ba80dc8219812a933d1a06afd11e
 
 # add +icedream.1 to final package version without disturbing the script
 replace#global#pkgver=#_pkgver=

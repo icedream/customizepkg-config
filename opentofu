@@ -1,0 +1,11 @@
+# bump to 1.11.4 if not done yet
+replace#global#pkgver=1.11.2#pkgver=1.11.4
+replace#global#ff95091fef8d413938025f7605311cf9b1ef2d1a1a19ee575dafa4ecf5774e0c#89dd393aeae8fe3cbcc8c4813354fb4d06f8ec67c824b85f86b7b24222eb632f
+replace#global#pkgver=1.11.3#pkgver=1.11.4
+replace#global#bb79b27e586913f301ecf57e9aaac008582cc133a30c424d6775c5253f2acbeb#89dd393aeae8fe3cbcc8c4813354fb4d06f8ec67c824b85f86b7b24222eb632f
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

@@ -17,6 +17,7 @@ logo-ls https://aur.archlinux.org/logo-ls.git
 matchbox https://aur.archlinux.org/matchbox.git
 mixxx-git https://aur.archlinux.org/mixxx-git.git
 olive-git https://aur.archlinux.org/olive-git.git
+opentofu https://gitlab.archlinux.org/archlinux/packaging/packages/opentofu.git
 r8125-dkms https://aur.archlinux.org/r8125-dkms.git
 rtlsdr-airband-git https://aur.archlinux.org/rtlsdr-airband-git.git
 simpfand-git https://aur.archlinux.org/simpfand-git.git

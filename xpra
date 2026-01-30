@@ -1,0 +1,11 @@
+patch#pkgbuild#../xpra.patches/0001-Ensure-correct-building-against-amf-headers.patch
+
+# fix version to be up to date
+replace#global#^minor_version=4$#minor_version=5
+replace#global#4a4aa6c950b37120edaf9e8f21f36737a3d655531da977d55b65b4d0a2d91a5f#e96db4e958e60cfaa49665fa94ef18d34de3ea111f7f1aab8e25ac13321ee183
+
+# add +icedream.3 to final package version without disturbing the script
+replace#global#^pkgver=#_orig_pkgver=
+replace#global#$pkgver#\$_orig_pkgver
+replace#global#${pkgver}#\${_orig_pkgver}
+addline#global#_orig_pkgver=#pkgver=\${_orig_pkgver}+icedream.3

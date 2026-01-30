@@ -26,3 +26,4 @@ tlpui https://aur.archlinux.org/tlpui.git
 vkdevicechooser https://aur.archlinux.org/vkdevicechooser.git
 waydroid-image https://aur.archlinux.org/waydroid-image.git
 wine-git https://aur.archlinux.org/wine-git.git
+xpra https://gitlab.archlinux.org/archlinux/packaging/packages/xpra.git

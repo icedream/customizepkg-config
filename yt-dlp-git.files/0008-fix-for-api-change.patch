@@ -1,0 +1,34 @@
+From a5af8796630a4ca747a9506a8ce066af3bab5fa2 Mon Sep 17 00:00:00 2001
+From: c-basalt <117849907+c-basalt@users.noreply.github.com>
+Date: Sun, 6 Oct 2024 10:45:54 -0400
+Subject: [PATCH 08/14] fix for api change
+
+---
+ yt_dlp/extractor/rplaylive.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/yt_dlp/extractor/rplaylive.py b/yt_dlp/extractor/rplaylive.py
+index c43e403d1..935430d73 100644
+--- a/yt_dlp/extractor/rplaylive.py
++++ b/yt_dlp/extractor/rplaylive.py
+@@ -308,12 +308,14 @@ def _real_extract(self, url):
+         elif stream_state == 'live':
+             if not self.user_id and not live_info.get('allowAnonymous'):
+                 self.raise_login_required(method='password')
+-            key2 = self._download_webpage(
++            key2 = traverse_obj(self._download_json(
+                 'https://api.rplay.live/live/key2', user_id, 'getting live key',
+-                headers=self.jwt_header, query=self.requestor_query) if self.user_id else ''
++                headers=self.jwt_header, query=self.requestor_query), ('authKey', {str})) if self.user_id else ''
++            if key2 is None:
++                raise ExtractorError('Failed to get playlist key')
+             formats = self._extract_m3u8_formats(
+                 'https://api.rplay.live/live/stream/playlist.m3u8', user_id,
+-                query={'creatorOid': user_id, 'key2': key2})
++                query={'creatorOid': user_id, 'key2': key2}, headers={'Referer': 'https://rplay.live'})
+ 
+             return {
+                 'id': user_id,
+-- 
+2.52.0
+

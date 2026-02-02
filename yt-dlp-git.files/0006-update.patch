@@ -1,0 +1,25 @@
+From ce20a4056c984a2a6377215dd8ddee77de64e07f Mon Sep 17 00:00:00 2001
+From: c-basalt <117849907+c-basalt@users.noreply.github.com>
+Date: Sun, 11 Aug 2024 10:45:10 -0400
+Subject: [PATCH 06/14] update
+
+---
+ yt_dlp/extractor/rplaylive.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/yt_dlp/extractor/rplaylive.py b/yt_dlp/extractor/rplaylive.py
+index 8286307d0..180c77d26 100644
+--- a/yt_dlp/extractor/rplaylive.py
++++ b/yt_dlp/extractor/rplaylive.py
+@@ -287,6 +287,8 @@ def _real_extract(self, url):
+         stream_state = live_info['streamState']
+         if stream_state == 'youtube':
+             return self.url_result(f'https://www.youtube.com/watch?v={live_info["liveStreamId"]}')
++        elif stream_state == 'twitch':
++            return self.url_result(f'https://www.twitch.tv/{live_info["twitchLogin"]}')
+         elif stream_state == 'live':
+             if not self.user_id and not live_info.get('allowAnonymous'):
+                 self.raise_login_required(method='password')
+-- 
+2.52.0
+

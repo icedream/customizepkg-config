@@ -1,0 +1,41 @@
+From f0a596fa92b265e00b35f65b8db0ec7aae619e18 Mon Sep 17 00:00:00 2001
+From: c-basalt <117849907+c-basalt@users.noreply.github.com>
+Date: Sun, 22 Jun 2025 15:19:46 -0400
+Subject: [PATCH 13/14] skip invalid format
+
+---
+ yt_dlp/extractor/rplaylive.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/yt_dlp/extractor/rplaylive.py b/yt_dlp/extractor/rplaylive.py
+index 58f86e94b..e9fd8a227 100644
+--- a/yt_dlp/extractor/rplaylive.py
++++ b/yt_dlp/extractor/rplaylive.py
+@@ -222,9 +222,13 @@ def _real_extract(self, url):
+                 msg += f'. {self._login_hint()}'
+             raise ExtractorError(msg, expected=True)
+ 
+-        formats = self._extract_m3u8_formats(m3u8_url, video_id, headers=self.butter_header)
+-        for fmt in formats:
+-            m3u8_doc = self._download_webpage(fmt['url'], video_id, 'getting m3u8 contents', headers=self.butter_header)
++        raw_formats = self._extract_m3u8_formats(m3u8_url, video_id, headers=self.butter_header)
++        formats = []
++        for fmt in raw_formats:
++            m3u8_doc = self._download_webpage(fmt['url'], video_id, f'getting m3u8 for {fmt["format_id"]}',
++                                              headers=self.butter_header, fatal=False)
++            if not m3u8_doc:
++                continue  # skip invalid format
+             fmt['url'] = encode_data_uri(m3u8_doc.encode(), 'application/x-mpegurl')
+             match = re.search(r'^#EXT-X-KEY.*?URI="([^"]+)"', m3u8_doc, flags=re.M)
+             if match:
+@@ -235,6 +239,7 @@ def _real_extract(self, url):
+                     'age': random.randint(1, 4999),
+                 })
+                 fmt['hls_aes'] = {'key': urlh.read().hex()}
++            formats.append(fmt)
+ 
+         return {
+             'id': video_id,
+-- 
+2.52.0
+

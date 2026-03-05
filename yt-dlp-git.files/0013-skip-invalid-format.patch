@@ -1,7 +1,7 @@
-From f0a596fa92b265e00b35f65b8db0ec7aae619e18 Mon Sep 17 00:00:00 2001
+From a17018cd00598acaca6e457c63de7c7d5590fcb1 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 22 Jun 2025 15:19:46 -0400
-Subject: [PATCH 13/14] skip invalid format
+Subject: [PATCH 13/18] skip invalid format
 
 ---
  yt_dlp/extractor/rplaylive.py | 11 ++++++++---
@@ -37,5 +37,5 @@ index 58f86e94b..e9fd8a227 100644
          return {
              'id': video_id,
 -- 
-2.52.0
+2.53.0
 

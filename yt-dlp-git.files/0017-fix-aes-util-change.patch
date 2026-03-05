@@ -1,0 +1,31 @@
+From 23472a74500c02ae05b56f7435d0780ffb96a4d9 Mon Sep 17 00:00:00 2001
+From: c-basalt <117849907+c-basalt@users.noreply.github.com>
+Date: Wed, 11 Feb 2026 07:28:14 +0000
+Subject: [PATCH 17/18] fix aes util change
+
+---
+ yt_dlp/extractor/rplaylive.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/yt_dlp/extractor/rplaylive.py b/yt_dlp/extractor/rplaylive.py
+index 8c8e4f341..eb79d41ed 100644
+--- a/yt_dlp/extractor/rplaylive.py
++++ b/yt_dlp/extractor/rplaylive.py
+@@ -114,10 +114,10 @@ def _login_by_token(self, jwt_token, raw_token_hint=False):
+                 self.report_warning('Login failed, possibly due to wrong password or website change')
+ 
+     def get_butter_token(self):
+-        salt = 'QWI@(!WAS)Dj1AA(!@*DJ#@$@~1)P'
+-        key = 'S%M@#H#B(!@()a2@'
+-        ts_value = str(int(time.time() / 360))
+-        enc = aes_cbc_encrypt_bytes(f'{salt}https://rplay.live{ts_value}', key, ts_value.zfill(16))
++        salt = b'QWI@(!WAS)Dj1AA(!@*DJ#@$@~1)P'
++        key = b'S%M@#H#B(!@()a2@'
++        ts_value = bytes(f'{int(time.time() / 360)}', 'utf-8')
++        enc = aes_cbc_encrypt_bytes(salt + b'https://rplay.live' + ts_value, key, ts_value.zfill(16))
+         return enc.hex()
+ 
+ 
+-- 
+2.53.0
+

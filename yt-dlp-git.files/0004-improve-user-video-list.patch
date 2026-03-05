@@ -1,7 +1,7 @@
-From 0a9a7ab52057138e91a716e89949625317d6da7c Mon Sep 17 00:00:00 2001
+From fcb01f1084e732bc910b5a851b573695c7478094 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 11 Aug 2024 03:38:25 -0400
-Subject: [PATCH 04/14] improve user video list
+Subject: [PATCH 04/18] improve user video list
 
 ---
  yt_dlp/extractor/rplaylive.py | 32 +++++++++++++++++---------------
@@ -64,5 +64,5 @@ index b90e9ef80..1df2d9000 100644
  
  class RPlayLiveIE(RPlayBaseIE):
 -- 
-2.52.0
+2.53.0
 

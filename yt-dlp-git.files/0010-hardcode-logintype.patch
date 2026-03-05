@@ -1,7 +1,7 @@
-From 1b0debd5838e56a82294d7406b791a06d4517937 Mon Sep 17 00:00:00 2001
+From b12b6eb6e94a500e2a5092b12621089d51b3ab6f Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 29 Dec 2024 03:24:11 -0500
-Subject: [PATCH 10/14] hardcode logintype
+Subject: [PATCH 10/18] hardcode logintype
 
 ---
  yt_dlp/extractor/rplaylive.py | 9 +--------
@@ -49,5 +49,5 @@ index c75f8a83c..a574fc42c 100644
          if not self._user_id:
              if raw_token_hint:
 -- 
-2.52.0
+2.53.0
 

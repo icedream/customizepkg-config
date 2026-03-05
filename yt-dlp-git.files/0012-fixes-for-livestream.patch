@@ -1,7 +1,7 @@
-From e252e13dc7d68b7bde385c3022d47c90b106e6ee Mon Sep 17 00:00:00 2001
+From bf97320bed1369d7435e84d74371a94c2df8b3e3 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Wed, 26 Feb 2025 12:23:31 -0500
-Subject: [PATCH 12/14] fixes for livestream
+Subject: [PATCH 12/18] fixes for livestream
 
 ---
  yt_dlp/extractor/rplaylive.py | 31 +++++++++++++++++--------------
@@ -92,5 +92,5 @@ index 4eca948e8..58f86e94b 100644
          else:
              raise ExtractorError(f'Unknow streamState: {stream_state}')
 -- 
-2.52.0
+2.53.0
 

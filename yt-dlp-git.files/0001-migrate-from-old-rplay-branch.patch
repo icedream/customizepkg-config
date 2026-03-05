@@ -1,7 +1,7 @@
-From 222f7c97caf2dadbcf741fac28b03c634c123640 Mon Sep 17 00:00:00 2001
+From 12765ee28f0d7f4f08629fbaca2da32f6bf0bdda Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Thu, 8 Aug 2024 11:48:21 -0400
-Subject: [PATCH 01/14] migrate from old rplay branch
+Subject: [PATCH 01/18] migrate from old rplay branch
 
 ---
  yt_dlp/extractor/_extractors.py |   5 +
@@ -10,10 +10,10 @@ Subject: [PATCH 01/14] migrate from old rplay branch
  create mode 100644 yt_dlp/extractor/rplaylive.py
 
 diff --git a/yt_dlp/extractor/_extractors.py b/yt_dlp/extractor/_extractors.py
-index 05480f5df..bab7b1771 100644
+index 1a29a93ed..a570dcedb 100644
 --- a/yt_dlp/extractor/_extractors.py
 +++ b/yt_dlp/extractor/_extractors.py
-@@ -1714,6 +1714,11 @@
+@@ -1717,6 +1717,11 @@
      RozhlasIE,
      RozhlasVltavaIE,
  )
@@ -361,5 +361,5 @@ index 000000000..208b17583
 +        else:
 +            raise ExtractorError(f'Unknow streamState: {stream_state}')
 -- 
-2.52.0
+2.53.0
 

@@ -1,7 +1,7 @@
-From 35d55b7a474bb69d6238fa3d7cb0222373c53182 Mon Sep 17 00:00:00 2001
+From 737323391b4b347b1824654d7b1ea9f18f5b4a6a Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Thu, 19 Sep 2024 20:09:48 -0400
-Subject: [PATCH 07/14] support jwt arg
+Subject: [PATCH 07/18] support jwt arg
 
 ---
  README.md                     |  4 ++++
@@ -9,7 +9,7 @@ Subject: [PATCH 07/14] support jwt arg
  2 files changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/README.md b/README.md
-index 75a8071a0..881ea5ef8 100644
+index a5b649818..e47ec6f5b 100644
 --- a/README.md
 +++ b/README.md
 @@ -1975,6 +1975,10 @@ #### vimeo
@@ -101,5 +101,5 @@ index 180c77d26..c43e403d1 100644
  
          formats = self._extract_m3u8_formats(m3u8_url, video_id, headers={
 -- 
-2.52.0
+2.53.0
 

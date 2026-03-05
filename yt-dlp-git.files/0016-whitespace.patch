@@ -1,0 +1,24 @@
+From b60246c11dc9740542ac846f86bfbe62b2ea5995 Mon Sep 17 00:00:00 2001
+From: c-basalt <117849907+c-basalt@users.noreply.github.com>
+Date: Sun, 8 Feb 2026 21:43:52 +0000
+Subject: [PATCH 16/18] whitespace
+
+---
+ README.md | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/README.md b/README.md
+index 167bd8891..3206675d5 100644
+--- a/README.md
++++ b/README.md
+@@ -1976,7 +1976,6 @@ #### vimeo
+ * `original_format_policy`: Policy for when to try extracting original formats. One of `always`, `never`, or `auto`. The default `auto` policy tries to avoid exceeding the web client's API rate-limit by only making an extra request when Vimeo publicizes the video's downloadability
+ 
+ #### rplaylive
+-
+ * `jwt_token`: JWT token that can be found as value of `_AUTHORIZATION_` entry from the browser local storage. This can be used as an alternative login method.
+ * `lang`: Provide language code (`en`, `jp`, `ko`) to use translated metadata (`title`, `description`, and `uploader`) when possible
+ 
+-- 
+2.53.0
+

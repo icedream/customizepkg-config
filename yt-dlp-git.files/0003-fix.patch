@@ -1,7 +1,7 @@
-From 0eb30b8330acfe0a7fa3e53dadfd274e44f853e5 Mon Sep 17 00:00:00 2001
+From c1be95f4d8dae7ceab5586b4b31a55ef73eda7f3 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Fri, 9 Aug 2024 18:23:25 -0400
-Subject: [PATCH 03/14] fix
+Subject: [PATCH 03/18] fix
 
 ---
  yt_dlp/extractor/rplaylive.py | 4 +---
@@ -30,5 +30,5 @@ index cec0ae670..b90e9ef80 100644
              'tags': ('hashtags', lambda _, v: v[0] != '_'),
              'age_limit': (('hideContent', 'isAdultContent'), {lambda x: 18 if x else None}, any),
 -- 
-2.52.0
+2.53.0
 

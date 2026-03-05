@@ -1,7 +1,7 @@
-From a5af8796630a4ca747a9506a8ce066af3bab5fa2 Mon Sep 17 00:00:00 2001
+From 63aafe6051cc6f9c2452ca2deabe648de55a21f6 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 6 Oct 2024 10:45:54 -0400
-Subject: [PATCH 08/14] fix for api change
+Subject: [PATCH 08/18] fix for api change
 
 ---
  yt_dlp/extractor/rplaylive.py | 8 +++++---
@@ -30,5 +30,5 @@ index c43e403d1..935430d73 100644
              return {
                  'id': user_id,
 -- 
-2.52.0
+2.53.0
 

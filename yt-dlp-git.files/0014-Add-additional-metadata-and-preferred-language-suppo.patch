@@ -1,7 +1,7 @@
-From 00c72b1c1e209e21e8047e2b090e5d172bb49da5 Mon Sep 17 00:00:00 2001
+From 9f662026dc51cdd8573be549a0d56d125790f20d Mon Sep 17 00:00:00 2001
 From: craterdanger <lancebailor38@gmail.com>
 Date: Mon, 7 Jul 2025 23:10:53 -0700
-Subject: [PATCH 14/14] Add additional metadata and preferred language support
+Subject: [PATCH 14/18] Add additional metadata and preferred language support
  for rplaylive (#4)
 
 * Add support for translated language from api in rplaylive
@@ -24,7 +24,7 @@ Co-authored-by: c-basalt <117849907+c-basalt@users.noreply.github.com>
  2 files changed, 45 insertions(+)
 
 diff --git a/README.md b/README.md
-index 881ea5ef8..6bb85541d 100644
+index e47ec6f5b..167bd8891 100644
 --- a/README.md
 +++ b/README.md
 @@ -1978,6 +1978,7 @@ #### vimeo
@@ -115,5 +115,5 @@ index e9fd8a227..715fe43f6 100644
          m3u8_url = traverse_obj(video_info, ('canView', 'url', {url_or_none}))
          if not m3u8_url:
 -- 
-2.52.0
+2.53.0
 

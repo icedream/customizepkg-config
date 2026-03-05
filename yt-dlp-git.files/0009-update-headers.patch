@@ -1,7 +1,7 @@
-From b79f8658084ec8b090d23659fef473fe51b089e8 Mon Sep 17 00:00:00 2001
+From 9cd4726a66325707ca05ec767c6d1690079600db Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Mon, 7 Oct 2024 12:47:47 -0400
-Subject: [PATCH 09/14] update headers
+Subject: [PATCH 09/18] update headers
 
 ---
  yt_dlp/extractor/rplaylive.py | 16 ++++++++++++----
@@ -51,5 +51,5 @@ index 935430d73..c75f8a83c 100644
                      'rplay-private-content-requestor': self.user_id or 'not-logged-in',
                      'age': random.randint(1, 4999),
 -- 
-2.52.0
+2.53.0
 

@@ -1,0 +1,25 @@
+From be2a88dbce1bcf34c175ceb745eff2bd2b8d2039 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Thu, 2 Apr 2026 16:45:18 +0200
+Subject: [PATCH 12/12] fix 400 due to missing site id info
+
+---
+ yt_dlp/extractor/sheeta.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/yt_dlp/extractor/sheeta.py b/yt_dlp/extractor/sheeta.py
+index 6150eb466..56604044a 100644
+--- a/yt_dlp/extractor/sheeta.py
++++ b/yt_dlp/extractor/sheeta.py
+@@ -714,7 +714,7 @@ def _extract_player_page(self, url):
+         self._extract_base_info(channel_id)
+ 
+         data_json = self._call_api(
+-            f'video_pages/{content_code}', content_code, headers={'fc_use_device': 'null'},
++            f'video_pages/{content_code}', content_code, headers={'fc_site_id': self._FANCLUB_SITE_ID_INFO, 'fc_use_device': 'null'},
+             note='Fetching video page info', errnote='Unable to fetch video page info',
+         )['data']['video_page']
+ 
+-- 
+2.53.0
+

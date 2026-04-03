@@ -1,0 +1,43 @@
+From f0d1d3bce451e2be39f4364e0c7fe657d27e3b81 Mon Sep 17 00:00:00 2001
+From: Mozi <29089388+pzhlkj6612@users.noreply.github.com>
+Date: Tue, 4 Feb 2025 17:15:09 +0000
+Subject: [PATCH 10/12] minor fixes
+
+---
+ yt_dlp/extractor/sheeta.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/yt_dlp/extractor/sheeta.py b/yt_dlp/extractor/sheeta.py
+index 8221d5e1b..1f0ae4851 100644
+--- a/yt_dlp/extractor/sheeta.py
++++ b/yt_dlp/extractor/sheeta.py
+@@ -181,7 +181,7 @@ def _niconico_get_token_by_cookies(self, redirect_url):
+         urlh = self._ie._request_webpage(
+             redirect_url, None, note='Getting niconico auth status',
+             expected_status=404, errnote='Unable to get niconico auth status')
+-        if not urlh.url.startswith(f'https://{self._DOMAIN}/login'):
++        if not urlh.url.startswith(f'https://{self._ie._DOMAIN}/login'):
+             return None
+ 
+         if not (sns_login_code := traverse_obj(parse_qs(urlh.url), ('code', 0))):
+@@ -245,7 +245,7 @@ def _niconico_login(self, mail_tel, password):
+         return True
+ 
+     def _auth0_login(self):
+-        self._auth_info = {'login_method': 'password', 'auth_type': AuthType.AUTH0}
++        self._auth_info = {'login_method': 'password', 'auth_type': AuthType.OAUTH_AUTH0}
+         username, password = self._ie._get_login_info()
+         if not username:
+             return
+@@ -358,7 +358,7 @@ def random_str():
+             'refresh_token': refresh_token,
+         }
+ 
+-        self._ie.cache.store(self._NETRC_MACHINE, cache_key, {cache_name: refresh_token})
++        self._ie.cache.store(self._ie._NETRC_MACHINE, cache_key, {cache_name: refresh_token})
+ 
+ 
+ class SheetaEmbedIE(InfoExtractor):
+-- 
+2.53.0
+

@@ -1,0 +1,27 @@
+--- PKGBUILD	2026-08-04 05:34:02.211503509 +0200
++++ PKGBUILD.new	2026-08-04 05:36:32.450662969 +0200
+@@ -19,2 +19,13 @@
+ 
++package() {
++    cd "${_gitname}-${_pkgver}-${_koditarget}/build"
++    make DESTDIR="${pkgdir}" install
++}
++
++prepare() {
++    cd "${_gitname}-${_pkgver}-${_koditarget}"
++    patch -Np1 -i ../0000-ffmpeg7.patch
++    patch -Np1 -i ../0001-ffmpeg8.patch
++}
++
+ build() {
+@@ -23,7 +34,8 @@
+ 
+-    PKG_CONFIG_PATH=/usr/lib/ffmpeg/pkgconfig cmake \
++    cmake \
+         -DCMAKE_INSTALL_PREFIX=/usr \
+         -DCMAKE_BUILD_TYPE=Release \
+-	-DLIBXML2_INCLUDE_DIRS=/usr/include/libxml2/libxml \
++        -DLIBXML2_INCLUDE_DIRS=/usr/include/libxml2/libxml \
+         ..
++
+     make

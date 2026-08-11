@@ -1,0 +1,8 @@
+replace#global#ffmpeg6.1#ffmpeg
+patch#pkgbuild#../kodi-addon-inputstream-ffmpegdirect.patches/PKGBUILD.patch
+
+# add +icedream.1 to final package version without disturbing the script
+replace#global#pkgver=#_pkgver=
+replace#global#$pkgver#\$_pkgver
+replace#global#${pkgver}#\${_pkgver}
+addline#global#_pkgver=#pkgver=\${_pkgver}+icedream.1

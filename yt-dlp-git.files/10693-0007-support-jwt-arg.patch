@@ -1,7 +1,7 @@
-From 737323391b4b347b1824654d7b1ea9f18f5b4a6a Mon Sep 17 00:00:00 2001
+From 9b77c5aa61564e430cfa95a7b004192521077968 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Thu, 19 Sep 2024 20:09:48 -0400
-Subject: [PATCH 07/18] support jwt arg
+Subject: [PATCH 07/20] support jwt arg
 
 ---
  README.md                     |  4 ++++
@@ -9,12 +9,12 @@ Subject: [PATCH 07/18] support jwt arg
  2 files changed, 25 insertions(+), 5 deletions(-)
 
 diff --git a/README.md b/README.md
-index a5b649818..e47ec6f5b 100644
+index 1fdbcde23..c75a6db98 100644
 --- a/README.md
 +++ b/README.md
-@@ -1975,6 +1975,10 @@ #### vimeo
- * `client`: Client to extract video data from. The currently available clients are `android`, `ios`, `macos` and `web`. Only one client can be used. The `macos` client is used by default, but the `web` client is used when logged-in. The `web` client only works with account cookies or login credentials. The `android` and `ios` clients only work with previously cached OAuth tokens
- * `original_format_policy`: Policy for when to try extracting original formats. One of `always`, `never`, or `auto`. The default `auto` policy tries to avoid exceeding the web client's API rate-limit by only making an extra request when Vimeo publicizes the video's downloadability
+@@ -1982,6 +1982,10 @@ #### vimeo
+ #### zan
+ * `split_angles`: Split multi-angle streams into separate angle formats. Forces re-encoding of the video stream during download, and requires ffmpeg. Either `true` or `false` (default)
  
 +#### rplaylive
 +
@@ -101,5 +101,5 @@ index 180c77d26..c43e403d1 100644
  
          formats = self._extract_m3u8_formats(m3u8_url, video_id, headers={
 -- 
-2.53.0
+2.54.0
 

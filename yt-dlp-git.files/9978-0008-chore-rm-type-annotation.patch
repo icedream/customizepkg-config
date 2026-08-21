@@ -1,4 +1,4 @@
-From fd6bb60b8b42cb863b3dbbbdb1a6de8f2e6af47a Mon Sep 17 00:00:00 2001
+From f76b99395215fc85af48396bb2a9cf2b4ab88e38 Mon Sep 17 00:00:00 2001
 From: ChocoLZS <chocoielzs@gmail.com>
 Date: Thu, 30 Jan 2025 20:02:19 +0800
 Subject: [PATCH 08/12] chore: rm type annotation
@@ -104,5 +104,5 @@ index ce0e08c4a..868623e50 100644
                  ('data', 'resource', {url_or_none}), {
                      403: 'Login required',
 -- 
-2.53.0
+2.55.0
 

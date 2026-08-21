@@ -1,4 +1,4 @@
-From ccac5561adfbcaac1695d66462dd6ec3325d27d3 Mon Sep 17 00:00:00 2001
+From 9c873e65a1d1a996b3b63f1de82d37787cfc5768 Mon Sep 17 00:00:00 2001
 From: Mozi <29089388+pzhlkj6612@users.noreply.github.com>
 Date: Fri, 7 Feb 2025 03:36:56 +0000
 Subject: [PATCH 11/12] Introduce "SheetaAuth0Client"; drop old API calls; drop
@@ -8,18 +8,18 @@ Time stands with us.
 ---
  README.md                               |   2 +-
  yt_dlp/extractor/_extractors.py         |   5 -
- yt_dlp/extractor/niconicochannelplus.py | 213 --------
+ yt_dlp/extractor/niconicochannelplus.py | 180 -------
  yt_dlp/extractor/sheeta.py              | 676 ++++++++++++++----------
- 4 files changed, 385 insertions(+), 511 deletions(-)
+ 4 files changed, 385 insertions(+), 478 deletions(-)
  delete mode 100644 yt_dlp/extractor/niconicochannelplus.py
 
 diff --git a/README.md b/README.md
-index ec64c029e..866a503a5 100644
+index 989bdf0c7..89dd1fac4 100644
 --- a/README.md
 +++ b/README.md
-@@ -1918,7 +1918,7 @@ #### hotstar
+@@ -1917,7 +1917,7 @@ #### hotstar
  #### instagram
- * `app_id`: The value of the `X-IG-App-ID` header used for API requests. Default is the web app ID, `936619743392459`
+ * `app_id`: The value of the `X-IG-App-ID` header used for API requests. Can be the actual ID number, `ios`, or `web` (default)
  
 -#### niconicochannelplus
 +#### sheeta
@@ -27,10 +27,10 @@ index ec64c029e..866a503a5 100644
  
  #### tiktok
 diff --git a/yt_dlp/extractor/_extractors.py b/yt_dlp/extractor/_extractors.py
-index 48cc2e5d6..4ddf90978 100644
+index 0f6d387d7..30cb50baf 100644
 --- a/yt_dlp/extractor/_extractors.py
 +++ b/yt_dlp/extractor/_extractors.py
-@@ -1327,11 +1327,6 @@
+@@ -1232,11 +1232,6 @@
      NicovideoSearchURLIE,
      NicovideoTagURLIE,
  )
@@ -44,44 +44,11 @@ index 48cc2e5d6..4ddf90978 100644
      CPTwentyFourIE,
 diff --git a/yt_dlp/extractor/niconicochannelplus.py b/yt_dlp/extractor/niconicochannelplus.py
 deleted file mode 100644
-index 506f11720..000000000
+index 8cfede78b..000000000
 --- a/yt_dlp/extractor/niconicochannelplus.py
 +++ /dev/null
-@@ -1,213 +0,0 @@
+@@ -1,180 +0,0 @@
 -from .sheeta import SheetaEmbedIE
--
--
--class NiconicoChannelPlusBaseIE(InfoExtractor):
--    _WEBPAGE_BASE_URL = 'https://nicochannel.jp'
--
--    def _call_api(self, path, item_id, **kwargs):
--        return self._download_json(
--            f'https://nfc-api.nicochannel.jp/fc/{path}', video_id=item_id, **kwargs)
--
--    def _find_fanclub_site_id(self, channel_name):
--        fanclub_list_json = self._call_api(
--            'content_providers/channels', item_id=f'channels/{channel_name}',
--            note='Fetching channel list', errnote='Unable to fetch channel list',
--        )['data']['content_providers']
--        fanclub_id = traverse_obj(fanclub_list_json, (
--            lambda _, v: v['domain'] == f'{self._WEBPAGE_BASE_URL}/{channel_name}', 'id'),
--            get_all=False)
--        if not fanclub_id:
--            raise ExtractorError(f'Channel {channel_name} does not exist', expected=True)
--        return fanclub_id
--
--    def _get_channel_base_info(self, fanclub_site_id):
--        return traverse_obj(self._call_api(
--            f'fanclub_sites/{fanclub_site_id}/page_base_info', item_id=f'fanclub_sites/{fanclub_site_id}',
--            note='Fetching channel base info', errnote='Unable to fetch channel base info', fatal=False,
--        ), ('data', 'fanclub_site', {dict})) or {}
--
--    def _get_channel_user_info(self, fanclub_site_id):
--        return traverse_obj(self._call_api(
--            f'fanclub_sites/{fanclub_site_id}/user_info', item_id=f'fanclub_sites/{fanclub_site_id}',
--            note='Fetching channel user info', errnote='Unable to fetch channel user info', fatal=False,
--            data=json.dumps('null').encode('ascii'),
--        ), ('data', 'fanclub_site', {dict})) or {}
 -
 -
 -class NiconicoChannelPlusIE(SheetaEmbedIE):
@@ -1163,5 +1130,5 @@ index 1f0ae4851..6150eb466 100644
      def _fetch_paged_channel_video_list(self, path, query, channel, item_id, page):
          response = self._call_api(
 -- 
-2.53.0
+2.55.0
 

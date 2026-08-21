@@ -1,7 +1,7 @@
-From c952ae18df1ba2313ba1bd287ced25882362c04a Mon Sep 17 00:00:00 2001
+From 7cc88cb130bfee438b24ecc04017b7d26e7a3fbc Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 11 Aug 2024 04:36:38 -0400
-Subject: [PATCH 05/18] improve
+Subject: [PATCH 05/20] improve
 
 ---
  yt_dlp/extractor/rplaylive.py | 18 ++++++++----------
@@ -60,5 +60,5 @@ index 1df2d9000..8286307d0 100644
          live_info = self._download_json('https://api.rplay.live/live/play', user_id, query={'creatorOid': user_id})
  
 -- 
-2.53.0
+2.54.0
 

@@ -1,7 +1,7 @@
-From 23cc6e564d0485682fba63320a7141145f73c5ce Mon Sep 17 00:00:00 2001
+From 766c8d67819b14f8c3002e49bc77a6b498d9a8c4 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Tue, 3 Mar 2026 11:09:03 -0500
-Subject: [PATCH 18/18] update api endpoint
+Subject: [PATCH 18/20] update api endpoint
 
 ---
  yt_dlp/extractor/rplaylive.py | 18 +++++++++---------
@@ -81,5 +81,5 @@ index eb79d41ed..967ca3ecb 100644
  
              return {
 -- 
-2.53.0
+2.54.0
 

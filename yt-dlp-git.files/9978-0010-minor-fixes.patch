@@ -1,4 +1,4 @@
-From f0d1d3bce451e2be39f4364e0c7fe657d27e3b81 Mon Sep 17 00:00:00 2001
+From b31a195fdb6988c828ecc9fba891c2577ac2bbc5 Mon Sep 17 00:00:00 2001
 From: Mozi <29089388+pzhlkj6612@users.noreply.github.com>
 Date: Tue, 4 Feb 2025 17:15:09 +0000
 Subject: [PATCH 10/12] minor fixes
@@ -39,5 +39,5 @@ index 8221d5e1b..1f0ae4851 100644
  
  class SheetaEmbedIE(InfoExtractor):
 -- 
-2.53.0
+2.55.0
 

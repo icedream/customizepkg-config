@@ -1,7 +1,7 @@
-From 9f662026dc51cdd8573be549a0d56d125790f20d Mon Sep 17 00:00:00 2001
+From 8b4279fb7a2367c123de484ba78e7a0fdbbf9bb4 Mon Sep 17 00:00:00 2001
 From: craterdanger <lancebailor38@gmail.com>
 Date: Mon, 7 Jul 2025 23:10:53 -0700
-Subject: [PATCH 14/18] Add additional metadata and preferred language support
+Subject: [PATCH 14/20] Add additional metadata and preferred language support
  for rplaylive (#4)
 
 * Add support for translated language from api in rplaylive
@@ -24,10 +24,10 @@ Co-authored-by: c-basalt <117849907+c-basalt@users.noreply.github.com>
  2 files changed, 45 insertions(+)
 
 diff --git a/README.md b/README.md
-index e47ec6f5b..167bd8891 100644
+index c75a6db98..ad282d4eb 100644
 --- a/README.md
 +++ b/README.md
-@@ -1978,6 +1978,7 @@ #### vimeo
+@@ -1985,6 +1985,7 @@ #### zan
  #### rplaylive
  
  * `jwt_token`: JWT token that can be found as value of `_AUTHORIZATION_` entry from the browser local storage. This can be used as an alternative login method.
@@ -115,5 +115,5 @@ index e9fd8a227..715fe43f6 100644
          m3u8_url = traverse_obj(video_info, ('canView', 'url', {url_or_none}))
          if not m3u8_url:
 -- 
-2.53.0
+2.54.0
 

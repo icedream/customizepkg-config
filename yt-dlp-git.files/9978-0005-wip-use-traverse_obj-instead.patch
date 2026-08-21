@@ -1,4 +1,4 @@
-From 058cbd73df2f4a7404954d6adf8f18e16a0c0c05 Mon Sep 17 00:00:00 2001
+From 99b1c799450709ee395576c690738a79aefcd966 Mon Sep 17 00:00:00 2001
 From: ChocoLZS <chocoielzs@gmail.com>
 Date: Thu, 30 Jan 2025 13:53:40 +0800
 Subject: [PATCH 05/12] wip: use traverse_obj instead
@@ -115,5 +115,5 @@ index 1221d50f9..1c9998d73 100644
          parsed_url = urllib.parse.urlparse(url)
          if not self.auth_manager:
 -- 
-2.53.0
+2.55.0
 

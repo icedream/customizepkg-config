@@ -1,24 +1,35 @@
-From b60246c11dc9740542ac846f86bfbe62b2ea5995 Mon Sep 17 00:00:00 2001
+From 3285c22b7400e1970e23a1674a3251e8ac2d3d29 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 8 Feb 2026 21:43:52 +0000
-Subject: [PATCH 16/18] whitespace
+Subject: [PATCH 16/20] whitespace
 
 ---
- README.md | 1 -
- 1 file changed, 1 deletion(-)
+ README.md | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/README.md b/README.md
-index 167bd8891..3206675d5 100644
+index ad282d4eb..4c41fd84f 100644
 --- a/README.md
 +++ b/README.md
-@@ -1976,7 +1976,6 @@ #### vimeo
- * `original_format_policy`: Policy for when to try extracting original formats. One of `always`, `never`, or `auto`. The default `auto` policy tries to avoid exceeding the web client's API rate-limit by only making an extra request when Vimeo publicizes the video's downloadability
+@@ -494,7 +494,7 @@ ## Video Selection:
+     --max-filesize SIZE             Abort download if filesize is larger than
+                                     SIZE, e.g. 50k or 44.6M
+     --date DATE                     Download only videos uploaded on this date.
+-                                    The date can be "YYYYMMDD" or in the format
++                                    The date can be "YYYYMMDD" or in the format 
+                                     [now|today|yesterday][-N[day|week|month|year]].
+                                     E.g. "--date today-2weeks" downloads only
+                                     videos uploaded on the same day two weeks ago
+@@ -1972,6 +1972,9 @@ #### sonylivseries
+ #### streaks
+ * `api_key`: API key for the `X-Streaks-Api-Key` header
  
- #### rplaylive
--
- * `jwt_token`: JWT token that can be found as value of `_AUTHORIZATION_` entry from the browser local storage. This can be used as an alternative login method.
- * `lang`: Provide language code (`en`, `jp`, `ko`) to use translated metadata (`title`, `description`, and `uploader`) when possible
++#### rplaylive
++* `lang`: Provide language code (`en`, `jp`, `ko`) to use translated metadata (`title`, `description`, and `uploader`) when possible
++
+ #### tver
+ * `backend`: Backend API to use for extraction - one of `streaks` (default) or `brightcove` (deprecated)
  
 -- 
-2.53.0
+2.54.0
 

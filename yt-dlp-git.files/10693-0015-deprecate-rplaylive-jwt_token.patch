@@ -1,7 +1,7 @@
-From e411ff85ed60c95f7f6e466390791098874cc500 Mon Sep 17 00:00:00 2001
+From 6d60a7e80a1b910cd10ccb86860da7a8af17f0d7 Mon Sep 17 00:00:00 2001
 From: c-basalt <117849907+c-basalt@users.noreply.github.com>
 Date: Sun, 8 Feb 2026 21:36:14 +0000
-Subject: [PATCH 15/18] deprecate rplaylive:jwt_token
+Subject: [PATCH 15/20] deprecate rplaylive:jwt_token
 
 ---
  yt_dlp/extractor/rplaylive.py | 24 +++++++++++++++---------
@@ -59,5 +59,5 @@ index 715fe43f6..8c8e4f341 100644
      def _login_by_token(self, jwt_token, raw_token_hint=False):
          user_info = self._download_json(
 -- 
-2.53.0
+2.54.0
 

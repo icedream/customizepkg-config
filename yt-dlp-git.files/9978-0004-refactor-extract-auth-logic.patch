@@ -1,4 +1,4 @@
-From 06c288df5be0e78eed6caee281af2854e18d33f4 Mon Sep 17 00:00:00 2001
+From bdcf269a9d19fc4abe8669388139b95ade125a9a Mon Sep 17 00:00:00 2001
 From: chocoie <chocoielzs@gmail.com>
 Date: Wed, 29 Jan 2025 20:18:44 +0800
 Subject: [PATCH 04/12] refactor: extract auth logic
@@ -744,5 +744,5 @@ index 77fa940a3..1221d50f9 100644
      def _extract_video_list_page(self, url):
          """
 -- 
-2.53.0
+2.55.0
 

@@ -1,4 +1,4 @@
-From a4a4d9f63a118f584e4ac38a7e14e307302fa58f Mon Sep 17 00:00:00 2001
+From 62d8addbe3f4935626550e3a3c6a937b7f6636a9 Mon Sep 17 00:00:00 2001
 From: ChocoLZS <chocoielzs@gmail.com>
 Date: Thu, 30 Jan 2025 16:30:35 +0800
 Subject: [PATCH 07/12] refactor: refresh token logic
@@ -106,5 +106,5 @@ index 0cac2f544..ce0e08c4a 100644
          def random_str():
              return ''.join(random.choices(string.digits + string.ascii_letters, k=43))
 -- 
-2.53.0
+2.55.0
 

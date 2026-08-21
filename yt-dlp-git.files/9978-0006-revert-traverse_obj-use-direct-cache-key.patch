@@ -1,4 +1,4 @@
-From 643fe54c5c35f37098808c93eebef2b4c0cc1ecb Mon Sep 17 00:00:00 2001
+From 010b424c381c7c49ed53ab9a120fcaf906ca4b95 Mon Sep 17 00:00:00 2001
 From: ChocoLZS <chocoielzs@gmail.com>
 Date: Thu, 30 Jan 2025 15:59:56 +0800
 Subject: [PATCH 06/12] revert: traverse_obj & use direct cache key
@@ -65,5 +65,5 @@ index 1c9998d73..0cac2f544 100644
          auth_token = f'Bearer {access_token}'
  
 -- 
-2.53.0
+2.55.0
 

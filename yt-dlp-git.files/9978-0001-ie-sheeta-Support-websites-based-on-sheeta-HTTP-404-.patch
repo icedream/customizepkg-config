@@ -1,4 +1,4 @@
-From b1a5c9f013c1482c43287f3df38b4f1c23b6afae Mon Sep 17 00:00:00 2001
+From 417bdcc7de47302ebd3588c1fb884b733d7527e8 Mon Sep 17 00:00:00 2001
 From: Mozi <29089388+pzhlkj6612@users.noreply.github.com>
 Date: Mon, 20 May 2024 15:22:40 +0000
 Subject: [PATCH 01/12] [ie/sheeta] Support websites based on sheeta; HTTP 404
@@ -7,26 +7,25 @@ Subject: [PATCH 01/12] [ie/sheeta] Support websites based on sheeta; HTTP 404
 ---
  yt_dlp/extractor/_extractors.py         |   2 +
  yt_dlp/extractor/generic.py             |   2 +-
- yt_dlp/extractor/niconicochannelplus.py | 301 ++-------
+ yt_dlp/extractor/niconicochannelplus.py | 334 ++--------
  yt_dlp/extractor/sheeta.py              | 836 ++++++++++++++++++++++++
- 4 files changed, 883 insertions(+), 258 deletions(-)
+ 4 files changed, 883 insertions(+), 291 deletions(-)
  create mode 100644 yt_dlp/extractor/sheeta.py
 
 diff --git a/yt_dlp/extractor/_extractors.py b/yt_dlp/extractor/_extractors.py
-index 1a29a93ed..48cc2e5d6 100644
+index 7a2d71b3d..d1488eb9f 100644
 --- a/yt_dlp/extractor/_extractors.py
 +++ b/yt_dlp/extractor/_extractors.py
-@@ -1829,6 +1829,8 @@
+@@ -1716,6 +1716,7 @@
+     ShahidShowIE,
  )
  from .sharepoint import SharePointIE
- from .sharevideos import ShareVideosEmbedIE
 +from .sheeta import SheetaEmbedIE
-+from .sibnet import SibnetEmbedIE
  from .shemaroome import ShemarooMeIE
  from .shiey import ShieyIE
- from .showroomlive import ShowRoomLiveIE
+ from .showroomlive import (
 diff --git a/yt_dlp/extractor/generic.py b/yt_dlp/extractor/generic.py
-index 7c7bb71a7..a684dc409 100644
+index 4443da40e..7256d4ae9 100644
 --- a/yt_dlp/extractor/generic.py
 +++ b/yt_dlp/extractor/generic.py
 @@ -819,7 +819,7 @@ def _real_extract(self, url):
@@ -34,18 +33,19 @@ index 7c7bb71a7..a684dc409 100644
                  'Accept-Encoding': 'identity',
                  'Referer': smuggled_data.get('referer'),
 -            }), impersonate=impersonate)
-+            }), impersonate=impersonate, expected_status=404)
++            }), expected_status=404, impersonate=impersonate)
          except ExtractorError as e:
              if not isinstance(e.cause, HTTPError) or e.cause.status != 403:
                  raise
 diff --git a/yt_dlp/extractor/niconicochannelplus.py b/yt_dlp/extractor/niconicochannelplus.py
-index f39d0000d..506f11720 100644
+index f39d0000d..8cfede78b 100644
 --- a/yt_dlp/extractor/niconicochannelplus.py
 +++ b/yt_dlp/extractor/niconicochannelplus.py
-@@ -1,18 +1,4 @@
+@@ -1,97 +1,54 @@
 -import functools
 -import json
--
++from .sheeta import SheetaEmbedIE
+ 
 -from .common import InfoExtractor
 -from ..utils import (
 -    ExtractorError,
@@ -58,14 +58,41 @@ index f39d0000d..506f11720 100644
 -    unified_timestamp,
 -    url_or_none,
 -)
-+from .sheeta import SheetaEmbedIE
  
- 
- class NiconicoChannelPlusBaseIE(InfoExtractor):
-@@ -48,50 +34,54 @@ def _get_channel_user_info(self, fanclub_site_id):
-         ), ('data', 'fanclub_site', {dict})) or {}
- 
- 
+-
+-class NiconicoChannelPlusBaseIE(InfoExtractor):
+-    _WEBPAGE_BASE_URL = 'https://nicochannel.jp'
+-
+-    def _call_api(self, path, item_id, **kwargs):
+-        return self._download_json(
+-            f'https://nfc-api.nicochannel.jp/fc/{path}', video_id=item_id, **kwargs)
+-
+-    def _find_fanclub_site_id(self, channel_name):
+-        fanclub_list_json = self._call_api(
+-            'content_providers/channels', item_id=f'channels/{channel_name}',
+-            note='Fetching channel list', errnote='Unable to fetch channel list',
+-        )['data']['content_providers']
+-        fanclub_id = traverse_obj(fanclub_list_json, (
+-            lambda _, v: v['domain'] == f'{self._WEBPAGE_BASE_URL}/{channel_name}', 'id'),
+-            get_all=False)
+-        if not fanclub_id:
+-            raise ExtractorError(f'Channel {channel_name} does not exist', expected=True)
+-        return fanclub_id
+-
+-    def _get_channel_base_info(self, fanclub_site_id):
+-        return traverse_obj(self._call_api(
+-            f'fanclub_sites/{fanclub_site_id}/page_base_info', item_id=f'fanclub_sites/{fanclub_site_id}',
+-            note='Fetching channel base info', errnote='Unable to fetch channel base info', fatal=False,
+-        ), ('data', 'fanclub_site', {dict})) or {}
+-
+-    def _get_channel_user_info(self, fanclub_site_id):
+-        return traverse_obj(self._call_api(
+-            f'fanclub_sites/{fanclub_site_id}/user_info', item_id=f'fanclub_sites/{fanclub_site_id}',
+-            note='Fetching channel user info', errnote='Unable to fetch channel user info', fatal=False,
+-            data=json.dumps('null').encode('ascii'),
+-        ), ('data', 'fanclub_site', {dict})) or {}
+-
+-
 -class NiconicoChannelPlusIE(NiconicoChannelPlusBaseIE):
 +class NiconicoChannelPlusIE(SheetaEmbedIE):
      IE_NAME = 'NiconicoChannelPlus'
@@ -136,7 +163,7 @@ index f39d0000d..506f11720 100644
          },
          'params': {
              'skip_download': True,
-@@ -99,158 +89,10 @@ class NiconicoChannelPlusIE(NiconicoChannelPlusBaseIE):
+@@ -99,158 +56,10 @@ class NiconicoChannelPlusIE(NiconicoChannelPlusBaseIE):
      }]
  
      def _real_extract(self, url):
@@ -224,11 +251,12 @@ index f39d0000d..506f11720 100644
 -                'timestamp': (('updated_at', 'sent_at', 'created_at'), {unified_timestamp}),
 -                'author_is_uploader': ('sender_id', {lambda x: x == '-1'}),
 -            }, get_all=False)
--
++        return super()._extract_from_url(url)
+ 
 -    def _get_live_status_and_session_id(self, content_code, data_json):
 -        video_type = data_json.get('type')
 -        live_finished_at = data_json.get('live_finished_at')
--
+ 
 -        payload = {}
 -        if video_type == 'vod':
 -            if live_finished_at:
@@ -244,11 +272,10 @@ index f39d0000d..506f11720 100644
 -            else:
 -                live_status = 'was_live'
 -                payload = {'broadcast_type': 'dvr'}
-+        return super()._extract_from_url(url)
- 
+-
 -                video_allow_dvr_flg = traverse_obj(data_json, ('video', 'allow_dvr_flg'))
 -                video_convert_to_vod_flg = traverse_obj(data_json, ('video', 'convert_to_vod_flg'))
- 
+-
 -                self.write_debug(f'allow_dvr_flg = {video_allow_dvr_flg}, convert_to_vod_flg = {video_convert_to_vod_flg}.')
 -
 -                if not (video_allow_dvr_flg and video_convert_to_vod_flg):
@@ -297,7 +324,7 @@ index f39d0000d..506f11720 100644
      IE_NAME = 'NiconicoChannelPlus:channel:videos'
      IE_DESC = 'ニコニコチャンネルプラス - チャンネル - 動画リスト. nicochannel.jp/channel/videos'
      _VALID_URL = r'https?://nicochannel\.jp/(?P<id>[a-z\d\._-]+)/videos(?:\?.*)?'
-@@ -258,7 +100,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -258,7 +67,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: None
          'url': 'https://nicochannel.jp/testman/videos',
          'info_dict': {
@@ -306,7 +333,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 18,
-@@ -266,7 +108,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -266,7 +75,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: None
          'url': 'https://nicochannel.jp/testtarou/videos',
          'info_dict': {
@@ -315,7 +342,7 @@ index f39d0000d..506f11720 100644
              'title': 'チャンネルプラステスト太郎-videos',
          },
          'playlist_mincount': 2,
-@@ -274,15 +116,15 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -274,15 +83,15 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: None
          'url': 'https://nicochannel.jp/testjirou/videos',
          'info_dict': {
@@ -334,7 +361,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 6,
-@@ -290,7 +132,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -290,7 +99,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: vodType
          'url': 'https://nicochannel.jp/testman/videos?vodType=1',
          'info_dict': {
@@ -343,7 +370,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 18,
-@@ -298,7 +140,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -298,7 +107,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: sort
          'url': 'https://nicochannel.jp/testman/videos?sort=-released_at',
          'info_dict': {
@@ -352,7 +379,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 18,
-@@ -306,7 +148,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -306,7 +115,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: tag, vodType
          'url': 'https://nicochannel.jp/testman/videos?tag=%E6%A4%9C%E8%A8%BC%E7%94%A8&vodType=1',
          'info_dict': {
@@ -361,7 +388,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 6,
-@@ -314,7 +156,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -314,7 +123,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: tag, sort
          'url': 'https://nicochannel.jp/testman/videos?tag=%E6%A4%9C%E8%A8%BC%E7%94%A8&sort=-released_at',
          'info_dict': {
@@ -370,7 +397,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 6,
-@@ -322,7 +164,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -322,7 +131,7 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: vodType, sort
          'url': 'https://nicochannel.jp/testman/videos?vodType=1&sort=-released_at',
          'info_dict': {
@@ -379,7 +406,7 @@ index f39d0000d..506f11720 100644
              'title': '本番チャンネルプラステストマン-videos',
          },
          'playlist_mincount': 18,
-@@ -330,97 +172,42 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
+@@ -330,97 +139,42 @@ class NiconicoChannelPlusChannelVideosIE(NiconicoChannelPlusChannelBaseIE):
          # query: tag, vodType, sort
          'url': 'https://nicochannel.jp/testman/videos?tag=%E6%A4%9C%E8%A8%BC%E7%94%A8&vodType=1&sort=-released_at',
          'info_dict': {
@@ -406,12 +433,12 @@ index f39d0000d..506f11720 100644
 -                4 生放送アーカイブ (live archives)
 -                5 アップロード動画 (uploaded videos)
 -        """
--
++        return super()._extract_from_url(url)
+ 
 -        channel_id = self._match_id(url)
 -        fanclub_site_id = self._find_fanclub_site_id(channel_id)
 -        channel_name = self._get_channel_base_info(fanclub_site_id).get('fanclub_site_name')
 -        qs = parse_qs(url)
-+        return super()._extract_from_url(url)
  
 -        return self.playlist_result(
 -            OnDemandPagedList(
@@ -425,7 +452,7 @@ index f39d0000d..506f11720 100644
 -                    channel_id, f'{channel_id}/videos'),
 -                self._PAGE_SIZE),
 -            playlist_id=f'{channel_id}-videos', playlist_title=f'{channel_name}-videos')
- 
+-
 -
 -class NiconicoChannelPlusChannelLivesIE(NiconicoChannelPlusChannelBaseIE):
 +class NiconicoChannelPlusChannelLivesIE(SheetaEmbedIE):
@@ -1328,5 +1355,5 @@ index 000000000..3209b1ecd
 +                self._LIST_PAGE_SIZE),
 +            playlist_id=f'{full_channel_id}/lives', playlist_title=f'{channel_name}-lives')
 -- 
-2.53.0
+2.55.0
 

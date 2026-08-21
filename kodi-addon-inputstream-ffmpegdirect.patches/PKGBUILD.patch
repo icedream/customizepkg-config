@@ -1,20 +1,19 @@
---- PKGBUILD	2026-08-04 05:34:02.211503509 +0200
-+++ PKGBUILD.new	2026-08-04 05:36:32.450662969 +0200
-@@ -19,2 +19,13 @@
+--- PKGBUILD.after-replace	2026-08-11 06:24:49.885058556 +0200
++++ PKGBUILD.expected	2026-08-11 06:25:11.163972749 +0200
+@@ -16,15 +16,23 @@
  
-+package() {
-+    cd "${_gitname}-${_pkgver}-${_koditarget}/build"
-+    make DESTDIR="${pkgdir}" install
-+}
-+
+ sha256sums=('0648c6bbb2143cec0c3f48ad476f2c213f20c809caaf5ac74c8ceb4e53635f4e')
+ 
 +prepare() {
 +    cd "${_gitname}-${_pkgver}-${_koditarget}"
 +    patch -Np1 -i ../0000-ffmpeg7.patch
 +    patch -Np1 -i ../0001-ffmpeg8.patch
++    patch -Np1 -i ../0002-ffmpeg9.patch
 +}
 +
  build() {
-@@ -23,7 +34,8 @@
+     mkdir -p "${_gitname}-${pkgver}-${_koditarget}/build"
+     cd "${_gitname}-${pkgver}-${_koditarget}/build"
  
 -    PKG_CONFIG_PATH=/usr/lib/ffmpeg/pkgconfig cmake \
 +    cmake \
@@ -25,3 +24,5 @@
          ..
 +
      make
+ }
+ 

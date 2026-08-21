@@ -1,0 +1,148 @@
+From 0acfe3a9fa83759205ddaaa7a76f85027ea9b6e5 Mon Sep 17 00:00:00 2001
+From: Carl Kittelberger <icedream@icedream.pw>
+Date: Tue, 11 Aug 2026 05:38:49 +0200
+Subject: [PATCH] Port to FFmpeg 9
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+FFmpeg 9 removes:
+- AVCodecParser.parser_parse (struct is now opaque) — use av_parser_parse2()
+- libpostproc entirely (removed from FFmpeg distribution)
+---
+ FindFFMPEG.cmake            | 36 ++++++++++++------------------------
+ src/stream/FFmpegStream.cpp | 14 ++++++++------
+ 2 files changed, 20 insertions(+), 30 deletions(-)
+
+diff --git a/FindFFMPEG.cmake b/FindFFMPEG.cmake
+index 8b20538..bdd684e 100644
+--- a/FindFFMPEG.cmake
++++ b/FindFFMPEG.cmake
+@@ -33,14 +33,13 @@
+ #
+ 
+ # required ffmpeg library versions
+-set(REQUIRED_FFMPEG_VERSION 7.0.0)
+-set(_avcodec_ver ">=61.3.100")
+-set(_avfilter_ver ">=10.1.100")
+-set(_avformat_ver ">=61.1.100")
+-set(_avutil_ver ">=59.8.100")
+-set(_postproc_ver ">=58.1.100")
+-set(_swresample_ver ">=5.1.100")
+-set(_swscale_ver ">=8.1.100")
++set(REQUIRED_FFMPEG_VERSION 9.0.0)
++set(_avcodec_ver ">=63.1.100")
++set(_avfilter_ver ">=12.1.100")
++set(_avformat_ver ">=63.1.100")
++set(_avutil_ver ">=61.1.100")
++set(_swresample_ver ">=7.1.100")
++set(_swscale_ver ">=10.1.100")
+ 
+ # Allows building with external ffmpeg not found in system paths,
+ # without library version checks
+@@ -54,7 +53,6 @@ if(WITH_FFMPEG)
+   unset(_avutil_ver)
+   unset(_swscale_ver)
+   unset(_swresample_ver)
+-  unset(_postproc_ver)
+ endif()
+ 
+ # Allows building with external ffmpeg not found in system paths,
+@@ -74,8 +72,7 @@ if(NOT ENABLE_INTERNAL_FFMPEG OR KODI_DEPENDSBUILD)
+                   libavformat${_avformat_ver}
+                   libavutil${_avutil_ver}
+                   libswscale${_swscale_ver}
+-                  libswresample${_swresample_ver}
+-                  libpostproc${_postproc_ver})
++                  libswresample${_swresample_ver})
+ 
+   if(PKG_CONFIG_FOUND)
+     pkg_check_modules(PC_FFMPEG ${FFMPEG_PKGS} QUIET)
+@@ -83,12 +80,12 @@ if(NOT ENABLE_INTERNAL_FFMPEG OR KODI_DEPENDSBUILD)
+   endif()
+ 
+   find_path(FFMPEG_INCLUDE_DIRS libavcodec/avcodec.h libavfilter/avfilter.h libavformat/avformat.h
+-                                libavutil/avutil.h libswscale/swscale.h libpostproc/postprocess.h
++                                libavutil/avutil.h libswscale/swscale.h
+             PATH_SUFFIXES ffmpeg
+             PATHS ${PC_FFMPEG_INCLUDE_DIRS}
+             NO_DEFAULT_PATH)
+   find_path(FFMPEG_INCLUDE_DIRS libavcodec/avcodec.h libavfilter/avfilter.h libavformat/avformat.h
+-                                libavutil/avutil.h libswscale/swscale.h libpostproc/postprocess.h)
++                                libavutil/avutil.h libswscale/swscale.h)
+ 
+   find_library(FFMPEG_LIBAVCODEC
+                NAMES avcodec libavcodec
+@@ -132,21 +129,13 @@ if(NOT ENABLE_INTERNAL_FFMPEG OR KODI_DEPENDSBUILD)
+                NO_DEFAULT_PATH)
+   find_library(FFMPEG_LIBSWRESAMPLE NAMES NAMES swresample libswresample PATH_SUFFIXES ffmpeg/libswresample)
+ 
+-  find_library(FFMPEG_LIBPOSTPROC
+-               NAMES postproc libpostproc
+-               PATH_SUFFIXES ffmpeg/libpostproc
+-               PATHS ${PC_FFMPEG_libpostproc_LIBDIR}
+-               NO_DEFAULT_PATH)
+-  find_library(FFMPEG_LIBPOSTPROC NAMES postproc libpostproc PATH_SUFFIXES ffmpeg/libpostproc)
+-
+   if((PC_FFMPEG_FOUND
+       AND PC_FFMPEG_libavcodec_VERSION
+       AND PC_FFMPEG_libavfilter_VERSION
+       AND PC_FFMPEG_libavformat_VERSION
+       AND PC_FFMPEG_libavutil_VERSION
+       AND PC_FFMPEG_libswscale_VERSION
+-      AND PC_FFMPEG_libswresample_VERSION
+-      AND PC_FFMPEG_libpostproc_VERSION)
++      AND PC_FFMPEG_libswresample_VERSION)
+      OR WIN32)
+     set(FFMPEG_VERSION ${REQUIRED_FFMPEG_VERSION})
+ 
+@@ -161,7 +150,6 @@ if(NOT ENABLE_INTERNAL_FFMPEG OR KODI_DEPENDSBUILD)
+                                                     FFMPEG_LIBAVUTIL
+                                                     FFMPEG_LIBSWSCALE
+                                                     FFMPEG_LIBSWRESAMPLE
+-                                                    FFMPEG_LIBPOSTPROC
+                                                     FFMPEG_VERSION
+                                       FAIL_MESSAGE "FFmpeg ${REQUIRED_FFMPEG_VERSION} not found, please consider using -DENABLE_INTERNAL_FFMPEG=ON")
+ 
+@@ -181,7 +169,7 @@ if(NOT ENABLE_INTERNAL_FFMPEG OR KODI_DEPENDSBUILD)
+     set(FFMPEG_LIBRARIES ${FFMPEG_LIBAVCODEC} ${FFMPEG_LIBAVFILTER}
+                          ${FFMPEG_LIBAVFORMAT} ${FFMPEG_LIBAVUTIL}
+                          ${FFMPEG_LIBSWSCALE} ${FFMPEG_LIBSWRESAMPLE}
+-                         ${FFMPEG_LIBPOSTPROC} ${FFMPEG_LDFLAGS})
++                         ${FFMPEG_LDFLAGS})
+     list(APPEND FFMPEG_DEFINITIONS -DFFMPEG_VER_SHA=\"${FFMPEG_VERSION}\")
+ 
+     # check if ffmpeg libs are statically linked
+diff --git a/src/stream/FFmpegStream.cpp b/src/stream/FFmpegStream.cpp
+index 64838dd..0377075 100644
+--- a/src/stream/FFmpegStream.cpp
++++ b/src/stream/FFmpegStream.cpp
+@@ -1677,17 +1677,19 @@ void FFmpegStream::ParsePacket(AVPacket* pkt)
+         st->codecpar->extradata_size = retExtraData.GetSize();
+         st->codecpar->extradata = retExtraData.TakeData();
+ 
+-        if (parser->second->m_parserCtx->parser->parser_parse)
++        if (parser->second->m_parserCtx->parser)
+         {
+           parser->second->m_codecCtx->extradata = st->codecpar->extradata;
+           parser->second->m_codecCtx->extradata_size = st->codecpar->extradata_size;
+-          const uint8_t* outbufptr;
++          uint8_t* outbufptr;
+           int bufSize;
+           parser->second->m_parserCtx->flags |= PARSER_FLAG_COMPLETE_FRAMES;
+-          parser->second->m_parserCtx->parser->parser_parse(parser->second->m_parserCtx,
+-                                                            parser->second->m_codecCtx,
+-                                                            &outbufptr, &bufSize,
+-                                                            pkt->data, pkt->size);
++          av_parser_parse2(parser->second->m_parserCtx,
++                           parser->second->m_codecCtx,
++                           &outbufptr, &bufSize,
++                           pkt->data, pkt->size,
++                           pkt->pts, pkt->dts,
++                           pkt->pos);
+           parser->second->m_codecCtx->extradata = nullptr;
+           parser->second->m_codecCtx->extradata_size = 0;
+ 
+-- 
+2.55.0
+

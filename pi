@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+customized_pkgbuild=${2:?customizepkg must pass the target PKGBUILD}
+patch_file="${HOME}/.customizepkg/pi.patches/copy-workspace-node-modules.patch"
+
+if grep -Fq 'cp -a "packages/$_pkg/node_modules" "$pkgdir/$mod_dir/packages/$_pkg/"' "${customized_pkgbuild}"; then
+  echo "Pi workspace dependencies are already preserved"
+  exit 0
+fi
+
+patch --batch --silent --forward -i "${patch_file}" "${customized_pkgbuild}"

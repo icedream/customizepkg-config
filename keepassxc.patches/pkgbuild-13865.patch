@@ -1,0 +1,28 @@
+--- a/PKGBUILD	2026-11-21 18:52:26.171432551 +0100
++++ b/PKGBUILD	2026-11-21 18:54:32.091784589 +0100
+@@ -12,7 +12,7 @@
+ depends=('botan' 'glibc' 'hicolor-icon-theme' 'keyutils' 'libgcc' 'libstdc++'
+          'libusb' 'libxi' 'libxtst' 'libx11' 'minizip' 'pcsclite' 'qrencode'
+          'qt6-base' 'qt6-svg' 'readline' 'zlib')
+-makedepends=('asciidoctor' 'cmake' 'git' 'qt6-tools')
++makedepends=('cmake' 'git' 'qt6-tools')
+ checkdepends=('xclip' 'xorg-server-xvfb')
+ optdepends=('xclip: keepassxc-cli clipboard support under X server'
+             'wl-clipboard: keepassxc-cli clipboard support under Wayland')
+@@ -31,6 +31,8 @@
+ 	cd $pkgname
+ 	# Fix tests with botan 3.14 - backport ChiPass fix
+ 	patch -p1 -i ../botan-3.14.patch
++	# Upstream issue #13865: get-logins by path/uuid crashes on an entry with no URL
++	patch -p1 -i ../keepassxc-13865-sortpriority.patch
+ }
+ 
+ build() {
+@@ -39,6 +41,7 @@
+ 		-DKEEPASSXC_BUILD_TYPE=Release \
+ 		-DCMAKE_INSTALL_PREFIX=/usr \
+ 		-DKPXC_FEATURE_UPDATES=OFF \
++		-DKPXC_FEATURE_DOCS=OFF \
+ 		-DWITH_GUI_TESTS=ON
+ 	cmake --build build
+ }

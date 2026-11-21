@@ -9,6 +9,7 @@ decklink https://aur.archlinux.org/decklink.git
 ffmpeg-obs https://aur.archlinux.org/ffmpeg-obs.git
 fw-ectool-git https://aur.archlinux.org/fw-ectool-git.git
 gr-osmosdr-git https://aur.archlinux.org/gr-osmosdr-git.git
+keepassxc https://gitlab.archlinux.org/archlinux/packaging/packages/keepassxc.git
 kodi-addon-inputstream-ffmpegdirect https://aur.archlinux.org/kodi-addon-inputstream-ffmpegdirect.git
 linux-amd https://aur.archlinux.org/linux-amd.git
 linux-amd-drm-fixes https://aur.archlinux.org/linux-amd-drm-fixes.git

@@ -1,0 +1,25 @@
+Browser: guard sortPriority against an empty URL list
+
+get-logins with a keepassxc://by-path/... or keepassxc://by-uuid/... lookup can
+match an entry that has neither a URL nor additional URLs. sortEntries then
+calls sortPriority with an empty list, priorityList stays empty, and
+"return *std::max_element(priorityList.begin(), priorityList.end())"
+dereferences end().
+
+An empty URL list means no match, which is the priority 0 the function already
+returns for a URL that matches nothing, so the guard keeps the semantics.
+
+--- a/src/browser/BrowserService.cpp
++++ b/src/browser/BrowserService.cpp
+@@ -1278,6 +1278,11 @@
+ // extension provided site and form url.
+ int BrowserService::sortPriority(const QStringList& urls, const QString& siteUrl, const QString& formUrl)
+ {
++    if (urls.isEmpty())
++    {
++        return 0;
++    }
++
+     QList<int> priorityList;
+     // NOTE: QUrl::matches is utterly broken in Qt < 5.11, so we work around that
+     // by removing parts of the url that we don't match and direct matching others
